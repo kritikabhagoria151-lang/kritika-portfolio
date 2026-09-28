@@ -1,0 +1,28 @@
+kind = "web"
+previewPath = "/"
+title = "Kritika Bhagoria — Portfolio"
+description = "A professional personal portfolio for Kritika Bhagoria, featuring her AI-powered digital marketing skills, projects, personal journey, and contact information."
+version = "1.0.0"
+id = "artifacts/kritika-portfolio"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 23455
+
+[services.development]
+run = "pnpm --filter @workspace/kritika-portfolio run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/kritika-portfolio", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/kritika-portfolio/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "23455"
+BASE_PATH = "/"
