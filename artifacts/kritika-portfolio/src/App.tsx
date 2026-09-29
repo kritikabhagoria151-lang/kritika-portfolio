@@ -1,5 +1,4 @@
 import { useEffect, useState, type FormEvent, type ReactNode } from 'react';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import {
   ArrowDown,
   ArrowUpRight,
@@ -17,8 +16,6 @@ import { ErrorBoundary } from '@/components/error-boundary';
 import { Toaster } from '@/components/ui/toaster';
 import { TooltipProvider } from '@/components/ui/tooltip';
 import NotFound from '@/pages/not-found';
-
-const queryClient = new QueryClient();
 
 const skills = [
   { name: 'AI Tools & Prompting', level: 'Expert', size: 'large' },
@@ -44,11 +41,14 @@ function Shell({ children }: { children: ReactNode }) {
   const [location] = useLocation();
 
   useEffect(() => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    window.scrollTo({ top: 0, behavior: 'auto' });
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          if (entry.isIntersecting) entry.target.classList.add('is-visible');
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-visible');
+            observer.unobserve(entry.target);
+          }
         });
       },
       { threshold: 0.12 },
@@ -250,7 +250,19 @@ function Home() {
       </section>
 
       <section className="bg-white px-5 py-20 sm:px-8 lg:px-12 lg:py-28">
-        <div className="mx-auto grid max-w-7xl gap-5 md:grid-cols-3">
+        <div className="mx-auto max-w-7xl">
+          <div className="reveal mb-10 flex flex-col gap-5 border-b border-violet-100 pb-8 lg:flex-row lg:items-end lg:justify-between">
+            <div>
+              <p className="text-xs font-bold uppercase tracking-[.22em] text-[#8050ce]">Portfolio overview</p>
+              <h2 className="mt-4 max-w-2xl font-display text-4xl font-semibold tracking-[-.06em] text-[#33264e] sm:text-5xl">
+                What I do and what you can explore.
+              </h2>
+            </div>
+            <p className="max-w-md text-base leading-7 text-[#746783]">
+              A quick guide to my skills, story, and selected work—all in one place.
+            </p>
+          </div>
+          <div className="grid gap-5 md:grid-cols-3">
           <Link href="/about" className="reveal group rounded-3xl bg-[#f6f1ff] p-7 transition-all hover:-translate-y-1 hover:shadow-[0_20px_40px_-28px_#5f378e]" data-testid="card-home-about">
             <p className="text-xs font-bold uppercase tracking-[.18em] text-[#9577bc]">01 / About</p>
             <h2 className="mt-5 font-display text-3xl font-semibold tracking-tight text-[#45315e]">Curiosity with a clear direction.</h2>
@@ -269,6 +281,7 @@ function Home() {
             <p className="mt-4 text-sm leading-7 text-[#c9bdd9]">Explore a project created with AI-assisted workflows and a focus on simple user experiences.</p>
             <span className="mt-7 inline-flex items-center text-sm font-bold text-[#f5d96e]">View project <ChevronRight className="ml-1 h-4 w-4 transition-transform group-hover:translate-x-1" /></span>
           </Link>
+          </div>
         </div>
       </section>
     </>
@@ -476,14 +489,12 @@ function Router() {
 
 function App() {
   return (
-    <QueryClientProvider client={queryClient}>
-      <TooltipProvider>
-        <WouterRouter base={import.meta.env.BASE_URL.replace(/\/$/, '')}>
-          <Router />
-        </WouterRouter>
-        <Toaster />
-      </TooltipProvider>
-    </QueryClientProvider>
+    <TooltipProvider>
+      <WouterRouter base={import.meta.env.BASE_URL.replace(/\/$/, '')}>
+        <Router />
+      </WouterRouter>
+      <Toaster />
+    </TooltipProvider>
   );
 }
 
