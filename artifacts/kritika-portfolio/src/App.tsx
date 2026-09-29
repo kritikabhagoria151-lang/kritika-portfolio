@@ -28,12 +28,12 @@ const skills = [
 ];
 
 const navItems = [
-  ['Home', '/'],
-  ['About', '/about'],
-  ['Journey', '/journey'],
-  ['Skills', '/skills'],
-  ['Projects', '/projects'],
-  ['Contact', '/contact'],
+  ['Home', '#home'],
+  ['About', '#about'],
+  ['Journey', '#journey'],
+  ['Skills', '#skills'],
+  ['Projects', '#projects'],
+  ['Contact', '#contact'],
 ] as const;
 
 function Shell({ children }: { children: ReactNode }) {
@@ -68,37 +68,37 @@ function Shell({ children }: { children: ReactNode }) {
     <div className="noise min-h-[100dvh] overflow-hidden">
       <header className="fixed inset-x-0 top-0 z-40 border-b border-violet-200/70 bg-[#fbf9ff]/85 backdrop-blur-xl">
         <div className="mx-auto flex h-[72px] max-w-7xl items-center justify-between px-5 sm:px-8 lg:px-12">
-          <Link href="/" onClick={closeMenu} className="focus-ring flex items-center gap-2" data-testid="link-home">
+          <a href="#home" onClick={closeMenu} className="focus-ring flex items-center gap-2" data-testid="link-home">
             <span className="grid h-9 w-9 place-items-center rounded-xl bg-[#6f3cc4] font-display text-sm font-bold text-white shadow-[0_8px_20px_-8px_#6f3cc4]">
               KB
             </span>
             <span className="font-display text-lg font-semibold tracking-tight text-[#33264e]">
               Kritika<span className="text-[#8050ce]">.</span>
             </span>
-          </Link>
+          </a>
 
           <nav className="hidden items-center gap-6 md:flex" aria-label="Main navigation">
             {navItems.map(([label, href]) => (
-              <Link
+              <a
                 key={href}
                 href={href}
                 className={`focus-ring text-[13px] font-semibold transition-colors ${
-                  location === href ? 'text-[#6f3cc4]' : 'text-[#665b77] hover:text-[#6f3cc4]'
+                  'text-[#665b77] hover:text-[#6f3cc4]'
                 }`}
                 data-testid={`link-nav-${label.toLowerCase()}`}
               >
                 {label}
-              </Link>
+              </a>
             ))}
           </nav>
 
-          <Link
-            href="/contact"
+          <a
+            href="#contact"
             className="focus-ring hidden rounded-full bg-[#33264e] px-5 py-2.5 text-[13px] font-semibold text-white transition-all hover:-translate-y-0.5 hover:bg-[#6f3cc4] sm:inline-flex"
             data-testid="link-header-contact"
           >
             Let&apos;s connect <ArrowUpRight className="ml-1.5 h-4 w-4" />
-          </Link>
+          </a>
 
           <button
             type="button"
@@ -114,17 +114,15 @@ function Shell({ children }: { children: ReactNode }) {
         {menuOpen && (
           <nav className="border-t border-violet-100 bg-[#fbf9ff] px-5 py-4 md:hidden" aria-label="Mobile navigation">
             {navItems.map(([label, href]) => (
-              <Link
+              <a
                 key={href}
                 href={href}
                 onClick={closeMenu}
-                className={`block border-b border-violet-100 py-3 text-sm font-semibold ${
-                  location === href ? 'text-[#6f3cc4]' : 'text-[#665b77]'
-                }`}
+                className="block border-b border-violet-100 py-3 text-sm font-semibold text-[#665b77] hover:text-[#6f3cc4]"
                 data-testid={`link-mobile-${label.toLowerCase()}`}
               >
                 {label}
-              </Link>
+              </a>
             ))}
           </nav>
         )}
@@ -134,13 +132,13 @@ function Shell({ children }: { children: ReactNode }) {
 
       <footer className="border-t border-violet-100 bg-[#fbf9ff] px-5 py-8 sm:px-8 lg:px-12">
         <div className="mx-auto flex max-w-7xl flex-col gap-4 text-sm text-[#806f99] sm:flex-row sm:items-center sm:justify-between">
-          <Link href="/" className="font-display font-semibold text-[#45315e]" data-testid="link-footer-home">
+          <a href="#home" className="font-display font-semibold text-[#45315e]" data-testid="link-footer-home">
             Kritika<span className="text-[#8050ce]">.</span>
-          </Link>
+          </a>
            <span>Digital marketing. AI creation. Digital experiences.</span>
-          <Link href="/contact" className="focus-ring inline-flex items-center gap-2 font-semibold text-[#6f3cc4]" data-testid="link-footer-contact">
+          <a href="#contact" className="focus-ring inline-flex items-center gap-2 font-semibold text-[#6f3cc4]" data-testid="link-footer-contact">
             Let&apos;s connect <ArrowUpRight className="h-4 w-4" />
-          </Link>
+          </a>
         </div>
       </footer>
     </div>
@@ -214,7 +212,7 @@ function PhotoPlaceholder() {
 function Home() {
   return (
     <>
-      <section className="site-grid relative isolate px-5 pb-24 pt-24 sm:px-8 lg:px-12 lg:pb-32 lg:pt-40">
+      <section id="home" className="site-grid relative isolate scroll-mt-24 px-5 pb-24 pt-24 sm:px-8 lg:px-12 lg:pb-32 lg:pt-40">
         <div className="pointer-events-none absolute -right-32 top-24 -z-10 h-[420px] w-[420px] rounded-full bg-violet-300/25 blur-3xl" />
         <div className="mx-auto grid max-w-7xl items-center gap-14 lg:grid-cols-[1.08fr_.92fr]">
           <div>
@@ -232,12 +230,12 @@ function Home() {
               I combine digital marketing, AI-powered creativity, and practical building to turn ideas into meaningful digital experiences.
             </p>
             <div className="reveal reveal-delay-3 mt-9 flex flex-wrap items-center gap-4">
-              <Link href="/projects" className="focus-ring inline-flex items-center rounded-full bg-[#6f3cc4] px-6 py-3.5 text-sm font-bold text-white shadow-[0_14px_26px_-14px_#6f3cc4] transition-all hover:-translate-y-1 hover:bg-[#57309f]" data-testid="link-hero-project">
+              <a href="#projects" className="focus-ring inline-flex items-center rounded-full bg-[#6f3cc4] px-6 py-3.5 text-sm font-bold text-white shadow-[0_14px_26px_-14px_#6f3cc4] transition-all hover:-translate-y-1 hover:bg-[#57309f]" data-testid="link-hero-project">
                 View my work <ArrowUpRight className="ml-2 h-4 w-4" />
-              </Link>
-              <Link href="/about" className="focus-ring inline-flex items-center rounded-full px-5 py-3.5 text-sm font-bold text-[#5d4b7b] transition-colors hover:bg-violet-100/70" data-testid="link-hero-about">
+              </a>
+              <a href="#about" className="focus-ring inline-flex items-center rounded-full px-5 py-3.5 text-sm font-bold text-[#5d4b7b] transition-colors hover:bg-violet-100/70" data-testid="link-hero-about">
                 About me <ArrowDown className="ml-2 h-4 w-4" />
-              </Link>
+              </a>
             </div>
             <div className="reveal reveal-delay-3 mt-14 flex items-center gap-7 border-t border-violet-200/80 pt-5 text-sm text-[#776b87]">
               <span className="inline-flex items-center gap-2"><MapPin className="h-4 w-4 text-[#8050ce]" /> Pundri, Haryana</span>
@@ -263,27 +261,32 @@ function Home() {
             </p>
           </div>
           <div className="grid gap-5 md:grid-cols-3">
-          <Link href="/about" className="reveal group rounded-3xl bg-[#f6f1ff] p-7 transition-all hover:-translate-y-1 hover:shadow-[0_20px_40px_-28px_#5f378e]" data-testid="card-home-about">
+           <a href="#about" className="reveal group rounded-3xl bg-[#f6f1ff] p-7 transition-all hover:-translate-y-1 hover:shadow-[0_20px_40px_-28px_#5f378e]" data-testid="card-home-about">
             <p className="text-xs font-bold uppercase tracking-[.18em] text-[#9577bc]">01 / About</p>
             <h2 className="mt-5 font-display text-3xl font-semibold tracking-tight text-[#45315e]">Curiosity with a clear direction.</h2>
             <p className="mt-4 text-sm leading-7 text-[#806f99]">Learn about my background, perspective, and the ideas that shape my work.</p>
             <span className="mt-7 inline-flex items-center text-sm font-bold text-[#6f3cc4]">Explore my story <ChevronRight className="ml-1 h-4 w-4 transition-transform group-hover:translate-x-1" /></span>
-          </Link>
-          <Link href="/skills" className="reveal reveal-delay-1 group rounded-3xl bg-[#fff8df] p-7 transition-all hover:-translate-y-1 hover:shadow-[0_20px_40px_-28px_#ae8c33]" data-testid="card-home-skills">
+           </a>
+           <a href="#skills" className="reveal reveal-delay-1 group rounded-3xl bg-[#fff8df] p-7 transition-all hover:-translate-y-1 hover:shadow-[0_20px_40px_-28px_#ae8c33]" data-testid="card-home-skills">
             <p className="text-xs font-bold uppercase tracking-[.18em] text-[#a18b43]">02 / Skills</p>
             <h2 className="mt-5 font-display text-3xl font-semibold tracking-tight text-[#45315e]">A toolkit that keeps evolving.</h2>
             <p className="mt-4 text-sm leading-7 text-[#806f99]">Explore the skills I am developing across AI, content, and digital marketing.</p>
             <span className="mt-7 inline-flex items-center text-sm font-bold text-[#6f3cc4]">View my capabilities <ChevronRight className="ml-1 h-4 w-4 transition-transform group-hover:translate-x-1" /></span>
-          </Link>
-          <Link href="/projects" className="reveal reveal-delay-2 group rounded-3xl bg-[#33264e] p-7 text-white transition-all hover:-translate-y-1 hover:shadow-[0_20px_40px_-28px_#33264e]" data-testid="card-home-projects">
+           </a>
+           <a href="#projects" className="reveal reveal-delay-2 group rounded-3xl bg-[#33264e] p-7 text-white transition-all hover:-translate-y-1 hover:shadow-[0_20px_40px_-28px_#33264e]" data-testid="card-home-projects">
             <p className="text-xs font-bold uppercase tracking-[.18em] text-[#e5c95e]">03 / Work</p>
             <h2 className="mt-5 font-display text-3xl font-semibold tracking-tight">Built for real-world use.</h2>
             <p className="mt-4 text-sm leading-7 text-[#c9bdd9]">Explore a project created with AI-assisted workflows and a focus on simple user experiences.</p>
             <span className="mt-7 inline-flex items-center text-sm font-bold text-[#f5d96e]">View project <ChevronRight className="ml-1 h-4 w-4 transition-transform group-hover:translate-x-1" /></span>
-          </Link>
+           </a>
           </div>
         </div>
       </section>
+      <div id="about" className="scroll-mt-24"><About /></div>
+      <div id="journey" className="scroll-mt-24"><Journey /></div>
+      <div id="skills" className="scroll-mt-24"><Skills /></div>
+      <div id="projects" className="scroll-mt-24"><Projects /></div>
+      <div id="contact" className="scroll-mt-24"><Contact /></div>
     </>
   );
 }
@@ -475,11 +478,11 @@ function Router() {
       <Shell>
         <Switch>
           <Route path="/" component={Home} />
-          <Route path="/about" component={About} />
-          <Route path="/journey" component={Journey} />
-          <Route path="/skills" component={Skills} />
-          <Route path="/projects" component={Projects} />
-          <Route path="/contact" component={Contact} />
+          <Route path="/about" component={Home} />
+          <Route path="/journey" component={Home} />
+          <Route path="/skills" component={Home} />
+          <Route path="/projects" component={Home} />
+          <Route path="/contact" component={Home} />
           <Route component={NotFound} />
         </Switch>
       </Shell>
