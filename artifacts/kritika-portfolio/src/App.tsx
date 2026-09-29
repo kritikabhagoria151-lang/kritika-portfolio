@@ -29,6 +29,7 @@ const skills = [
 
 const navItems = [
   ['Home', '/'],
+  ['About', '/about'],
   ['Journey', '/journey'],
   ['Skills', '/skills'],
   ['Projects', '/projects'],
@@ -234,8 +235,8 @@ function Home() {
               <Link href="/projects" className="focus-ring inline-flex items-center rounded-full bg-[#6f3cc4] px-6 py-3.5 text-sm font-bold text-white shadow-[0_14px_26px_-14px_#6f3cc4] transition-all hover:-translate-y-1 hover:bg-[#57309f]" data-testid="link-hero-project">
                 View my work <ArrowUpRight className="ml-2 h-4 w-4" />
               </Link>
-               <Link href="/journey" className="focus-ring inline-flex items-center rounded-full px-5 py-3.5 text-sm font-bold text-[#5d4b7b] transition-colors hover:bg-violet-100/70" data-testid="link-hero-about">
-                 My journey <ArrowDown className="ml-2 h-4 w-4" />
+              <Link href="/about" className="focus-ring inline-flex items-center rounded-full px-5 py-3.5 text-sm font-bold text-[#5d4b7b] transition-colors hover:bg-violet-100/70" data-testid="link-hero-about">
+                About me <ArrowDown className="ml-2 h-4 w-4" />
               </Link>
             </div>
             <div className="reveal reveal-delay-3 mt-14 flex items-center gap-7 border-t border-violet-200/80 pt-5 text-sm text-[#776b87]">
@@ -262,11 +263,11 @@ function Home() {
             </p>
           </div>
           <div className="grid gap-5 md:grid-cols-3">
-           <Link href="/journey" className="reveal group rounded-3xl bg-[#f6f1ff] p-7 transition-all hover:-translate-y-1 hover:shadow-[0_20px_40px_-28px_#5f378e]" data-testid="card-home-journey">
-             <p className="text-xs font-bold uppercase tracking-[.18em] text-[#9577bc]">01 / Journey</p>
-             <h2 className="mt-5 font-display text-3xl font-semibold tracking-tight text-[#45315e]">Curiosity with a clear direction.</h2>
-             <p className="mt-4 text-sm leading-7 text-[#806f99]">Learn about my background, perspective, and the experiences shaping my work.</p>
-             <span className="mt-7 inline-flex items-center text-sm font-bold text-[#6f3cc4]">Explore my journey <ChevronRight className="ml-1 h-4 w-4 transition-transform group-hover:translate-x-1" /></span>
+          <Link href="/about" className="reveal group rounded-3xl bg-[#f6f1ff] p-7 transition-all hover:-translate-y-1 hover:shadow-[0_20px_40px_-28px_#5f378e]" data-testid="card-home-about">
+            <p className="text-xs font-bold uppercase tracking-[.18em] text-[#9577bc]">01 / About</p>
+            <h2 className="mt-5 font-display text-3xl font-semibold tracking-tight text-[#45315e]">Curiosity with a clear direction.</h2>
+            <p className="mt-4 text-sm leading-7 text-[#806f99]">Learn about my background, perspective, and the ideas that shape my work.</p>
+            <span className="mt-7 inline-flex items-center text-sm font-bold text-[#6f3cc4]">Explore my story <ChevronRight className="ml-1 h-4 w-4 transition-transform group-hover:translate-x-1" /></span>
           </Link>
           <Link href="/skills" className="reveal reveal-delay-1 group rounded-3xl bg-[#fff8df] p-7 transition-all hover:-translate-y-1 hover:shadow-[0_20px_40px_-28px_#ae8c33]" data-testid="card-home-skills">
             <p className="text-xs font-bold uppercase tracking-[.18em] text-[#a18b43]">02 / Skills</p>
@@ -287,10 +288,10 @@ function Home() {
   );
 }
 
-function Journey() {
+function About() {
   return (
     <>
-      <PageIntro number="01" eyebrow="My journey" title="From curiosity to" accent="real-world building." description="My background, values, and experiments all connect through one journey: learning, building, and growing with purpose." />
+      <PageIntro number="01" eyebrow="About me" title="Curiosity with" accent="a clear direction." description="Learn more about my background, what I am building, and the principles that guide my growth." />
       <section className="bg-white px-5 py-20 sm:px-8 lg:px-12 lg:py-28">
         <div className="mx-auto grid max-w-7xl gap-14 lg:grid-cols-[.8fr_1.2fr] lg:items-start lg:gap-24">
           <div className="reveal">
@@ -329,6 +330,14 @@ function Journey() {
           </div>
         </div>
       </section>
+    </>
+  );
+}
+
+function Journey() {
+  return (
+    <>
+      <PageIntro number="02" eyebrow="The journey" title="Starting with" accent="curiosity." description="From Pundri, Haryana to the digital world — my journey is focused on learning, building, and growing with purpose." />
       <section className="bg-[#33264e] px-5 py-20 text-white sm:px-8 lg:px-12 lg:py-28">
         <div className="mx-auto max-w-7xl">
           <div className="reveal max-w-3xl">
@@ -361,7 +370,7 @@ function Journey() {
 function Skills() {
   return (
     <>
-      <PageIntro number="02" eyebrow="My skills" title="An evolving" accent="professional toolkit." description="Technology changes quickly. Consistent learning, thoughtful experimentation, and reliable execution create lasting value." />
+      <PageIntro number="03" eyebrow="My skills" title="An evolving" accent="professional toolkit." description="Technology changes quickly. Consistent learning, thoughtful experimentation, and reliable execution create lasting value." />
       <section className="site-grid px-5 pb-24 sm:px-8 lg:px-12 lg:pb-32">
         <div className="mx-auto max-w-7xl">
           <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
@@ -392,7 +401,7 @@ function Skills() {
 function Projects() {
   return (
     <>
-      <PageIntro number="03" eyebrow="Selected project" title="Built for" accent="real-world use." description="A project built with curiosity, AI tools, and a focus on creating a clear, practical user experience." />
+      <PageIntro number="04" eyebrow="Selected project" title="Built for" accent="real-world use." description="A project built with curiosity, AI tools, and a focus on creating a clear, practical user experience." />
       <section className="bg-[#f1ebff] px-5 pb-24 sm:px-8 lg:px-12 lg:pb-32">
         <div className="mx-auto max-w-7xl">
           <a href="https://pizza-ride01-main.vercel.app/" target="_blank" rel="noreferrer" className="focus-ring reveal group block overflow-hidden rounded-[2rem] border border-violet-200 bg-white shadow-[0_24px_60px_-40px_#5d3c8a] transition-all hover:-translate-y-1 hover:shadow-[0_30px_70px_-38px_#5d3c8a]" data-testid="link-project-pizza-ride">
@@ -434,7 +443,7 @@ function Contact() {
 
   return (
     <>
-      <PageIntro number="04" eyebrow="Contact" title="Let’s build" accent="something meaningful." description="Have an idea, a project, or a question? I would be glad to hear from you." />
+      <PageIntro number="05" eyebrow="Contact" title="Let’s build" accent="something meaningful." description="Have an idea, a project, or a question? I would be glad to hear from you." />
       <section className="bg-white px-5 pb-24 sm:px-8 lg:px-12 lg:pb-32">
         <div className="mx-auto grid max-w-7xl gap-16 lg:grid-cols-[.9fr_1.1fr]">
           <div className="reveal">
@@ -466,8 +475,8 @@ function Router() {
       <Shell>
         <Switch>
           <Route path="/" component={Home} />
+          <Route path="/about" component={About} />
           <Route path="/journey" component={Journey} />
-          <Route path="/about" component={Journey} />
           <Route path="/skills" component={Skills} />
           <Route path="/projects" component={Projects} />
           <Route path="/contact" component={Contact} />
