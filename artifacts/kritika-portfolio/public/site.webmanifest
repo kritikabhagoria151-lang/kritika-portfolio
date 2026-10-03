@@ -1,0 +1,19 @@
+{
+  "name": "Kritika Bhagoria — Portfolio",
+  "short_name": "Kritika",
+  "description": "Portfolio of Kritika Bhagoria, a digital marketing and AI creator from Pundri, Haryana.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#fbf9ff",
+  "theme_color": "#6f3cc4",
+  "lang": "en-IN",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}
