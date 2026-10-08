@@ -1,4 +1,4 @@
-import { useEffect, useState, type FormEvent, type ReactNode } from 'react';
+﻿import { useEffect, useState, type FormEvent, type ReactNode } from 'react';
 import {
   ArrowDown,
   ArrowUpRight,
@@ -36,13 +36,13 @@ const skillGroups = [
       {
         name: 'Website Building',
         level: 'Intermediate',
-        description: 'Building complete, responsive websites end to end with AI tooling — layout, styling, logic, and deployment. Verified by the live Pizza Ride project.',
+        description: 'Building complete, responsive websites end to end with AI tooling â€” layout, styling, logic, and deployment. Verified by the live Pizza Ride project.',
         proof: 'Pizza Ride',
       },
       {
         name: 'Game Development',
         level: 'Intermediate',
-        description: 'Creating playable browser-based games with AI assistance — game logic, scoring, and an interactive user interface.',
+        description: 'Creating playable browser-based games with AI assistance â€” game logic, scoring, and an interactive user interface.',
         proof: 'Mind Test',
       },
       {
@@ -103,7 +103,7 @@ const skillGroups = [
       {
         name: 'Communication',
         level: 'Advanced',
-        description: 'Confident, professional communication in Hindi, English, and Hinglish — adapting tone and clarity to suit the audience.',
+        description: 'Confident, professional communication in Hindi, English, and Hinglish â€” adapting tone and clarity to suit the audience.',
       },
       {
         name: 'Sales Mindset',
@@ -124,8 +124,9 @@ const navItems = [
   ['About', 'about'],
   ['Journey', 'journey'],
   ['Skills', 'skills'],
-  ['Projects', 'projects'],
-  ['Contact', 'contact'],
+['Projects', 'projects'],
+    ['Blog', 'blog'],
+    ['Contact', 'contact'],
 ] as const;
 
 function scrollToSection(id: string) {
@@ -595,7 +596,7 @@ function About() {
             <div className="mt-10 grid gap-3 sm:grid-cols-2">
               <div className="rounded-2xl bg-[#f6f1ff] p-5">
                 <p className="text-xs font-bold uppercase tracking-[.16em] text-[#9577bc]">Education</p>
-                <p className="mt-2 font-display text-lg font-semibold text-[#45315e]">B.A. — Digital Marketing &amp; AI</p>
+                <p className="mt-2 font-display text-lg font-semibold text-[#45315e]">B.A. â€” Digital Marketing &amp; AI</p>
                 <p className="mt-1 text-sm text-[#806f99]">Undergraduate, Year 1</p>
               </div>
               <div className="rounded-2xl bg-[#fff8df] p-5">
@@ -674,9 +675,9 @@ function About() {
 
 function Journey() {
   const steps: [string, string, string][] = [
-['01', 'Class 10 — 2024', 'I completed my Class 10 examinations in 2024 with 65%. It was during these school years that I started noticing how much I enjoyed working with technology and creating things.'],
-    ['02', 'Class 12 — 2026', 'I completed my Class 12 examinations in 2026 with 70%, and decided to continue my studies in the digital direction.'],
-    ['03', 'B.A. — First Year', 'I am currently in the first year of my Bachelor of Arts degree, continuing my higher studies after Class 12.'],
+['01', 'Class 10 â€” 2024', 'I completed my Class 10 examinations in 2024 with 65%. It was during these school years that I started noticing how much I enjoyed working with technology and creating things.'],
+    ['02', 'Class 12 â€” 2026', 'I completed my Class 12 examinations in 2026 with 70%, and decided to continue my studies in the digital direction.'],
+    ['03', 'B.A. â€” First Year', 'I am currently in the first year of my Bachelor of Arts degree, continuing my higher studies after Class 12.'],
     ['04', 'Digital Marketing with AI', 'I am studying Digital Marketing with AI to build my skills in this field. I use AI-assisted workflows to learn faster, build websites and web games, and improve my digital marketing and communication abilities.'],
     ['05', 'Building toward a bigger picture', 'The next phase is focused on business development, sales, client communication, and long-term digital entrepreneurship.'],
   ];
@@ -695,7 +696,7 @@ function Journey() {
           </h2>
         </div>
         <p className="reveal reveal-delay-1 mt-8 max-w-2xl text-lg leading-8 text-[#bcb0ce]">
-          From Pundri, Haryana into the digital industry — a path defined by continuous learning, hands-on building, and purposeful growth.
+          From Pundri, Haryana into the digital industry â€” a path defined by continuous learning, hands-on building, and purposeful growth.
         </p>
 
         <div className="reveal reveal-delay-1 mt-16 max-w-3xl">
@@ -715,7 +716,7 @@ function Journey() {
 
         <div className="reveal mt-16 flex items-center gap-4 border-t border-white/15 pt-7 text-sm text-[#e9dcf8]">
           <span className="grid h-11 w-11 place-items-center rounded-full bg-[#e5c95e] text-[#33264e]"><Sparkles className="h-5 w-5" /></span>
-          <span className="font-semibold">The journey so far — and the work still ahead.</span>
+          <span className="font-semibold">The journey so far â€” and the work still ahead.</span>
         </div>
       </div>
     </section>
@@ -851,7 +852,7 @@ function Vision() {
           <div className="relative">
             <p className="text-xs font-bold uppercase tracking-[.22em] text-[#8050ce]">My Vision</p>
             <h2 className="mt-4 text-balance font-display text-4xl font-semibold tracking-[-.06em] text-[#33264e] sm:text-5xl lg:text-[2.95rem]">
-              Driven digital business that helps small businesses grow online —
+              Driven digital business that helps small businesses grow online â€”
               <br className="hidden lg:block" />
               <span className="text-[#8050ce]"> and become a trusted name in the digital industry</span>
             </h2>
@@ -865,12 +866,112 @@ function Vision() {
   );
 }
 
+const blogPosts = [
+  {
+    id: 'seo-for-freelancers',
+    testId: 'blog-seo-freelancers',
+    date: '2026-09-15',
+    readTime: '5 min',
+    category: 'SEO',
+    title: 'SEO Basics Every Freelancer Should Know',
+    excerpt: 'Simple steps to get your portfolio and client sites ranking on Google without hiring an agency.',
+    cover: '/og-image.png',
+  },
+  {
+    id: 'ai-workflows-2024',
+    testId: 'blog-ai-workflows',
+    date: '2026-08-28',
+    readTime: '7 min',
+    category: 'AI Tools',
+    title: 'My AI Workflow for Building Websites in Hours',
+    excerpt: 'How I use AI prompting, code generation, and design tools to ship functional websites faster.',
+    cover: '/og-image.png',
+  },
+  {
+    id: 'marketing-on-budget',
+    testId: 'blog-marketing-budget',
+    date: '2026-07-12',
+    readTime: '6 min',
+    category: 'Marketing',
+    title: 'Digital Marketing on a Zero Budget',
+    excerpt: 'Organic growth tactics that work for solo creators and small businesses without ad spend.',
+    cover: '/og-image.png',
+  },
+];
+
+function Blog() {
+  return (
+    <section className="px-5 py-20 sm:px-8 lg:px-12 lg:py-28">
+      <div className="mx-auto max-w-7xl">
+        <SectionIntro
+          eyebrow="Blog"
+          title="Ideas, lessons,"
+          accent="and experiments."
+          description="Things I am learning while building, marketing, and growing with AI. Practical notes, not theory."
+        />
+
+        <div className="mx-auto mt-16 max-w-7xl grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+          {blogPosts.map((post) => (
+            <article
+              key={post.id}
+              data-testid={post.testId}
+              className="reveal group rounded-[2rem] border border-violet-100 bg-white overflow-hidden transition-all hover:-translate-y-1 hover:shadow-[0_20px_40px_-28px_#5f378e]"
+            >
+              <div className="aspect-video overflow-hidden bg-[#eee7fa]">
+                <img
+                  src={post.cover}
+                  alt={post.title}
+                  width={1200}
+                  height={630}
+                  className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                />
+              </div>
+              <div className="p-6">
+                <div className="flex items-center gap-3 text-xs text-[#806f99]">
+                  <time dateTime={post.date}>{new Date(post.date).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}</time>
+                  <span className="w-px h-4 bg-violet-200" />
+                  <span>{post.readTime} read</span>
+                </div>
+                <span className="mt-3 inline-block rounded-full bg-[#f6f1ff] px-3 py-1 text-xs font-bold uppercase tracking-[.1em] text-[#8050ce]">{post.category}</span>
+                <h3 className="mt-4 font-display text-2xl font-semibold tracking-tight text-[#33264e] group-hover:text-[#6f3cc4] transition-colors">{post.title}</h3>
+                <p className="mt-3 text-sm leading-7 text-[#746783] line-clamp-3">{post.excerpt}</p>
+                <a
+                  href="#"
+                  className="mt-6 inline-flex items-center gap-2 text-sm font-bold text-[#6f3cc4] hover:gap-3 transition-all"
+                  data-testid={`link-blog-${post.id}`}
+                >
+                  Read more <ChevronRight className="h-4 w-4" />
+                </a>
+              </div>
+            </article>
+          ))}
+        </div>
+
+        <div className="reveal mt-16 text-center">
+          <p className="text-sm text-[#806f99]">More posts coming soon â€” subscribe to stay updated.</p>
+          <a
+            href="#contact"
+            onClick={(event) => {
+              event.preventDefault();
+              scrollToSection('contact');
+            }}
+            className="mt-6 inline-flex items-center rounded-full bg-[#6f3cc4] px-6 py-3.5 text-sm font-bold text-white transition-all hover:-translate-y-0.5 hover:bg-[#57309f]"
+            data-testid="link-blog-contact"
+          >
+            Get notified <ArrowUpRight className="ml-2 h-4 w-4" />
+          </a>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 const projects = [
   {
     href: 'https://pizza-ride01-main.vercel.app/',
     testId: 'link-project-pizza-ride',
     tag: 'Website / E-commerce',
-    title: 'Pizza Ride — Ordering Website',
+    title: 'Pizza Ride â€” Ordering Website',
     wordOne: 'Pizza',
     wordTwo: 'Ride',
     tagline: 'Simple ordering. Warm delivery. A frictionless checkout.',
@@ -885,11 +986,11 @@ const projects = [
     href: 'https://game-nine-phi-78.vercel.app/',
     testId: 'link-project-mind-test',
     tag: 'Game / AI-assisted',
-    title: 'Mind Test — Browser Quiz Game',
+    title: 'Mind Test â€” Browser Quiz Game',
     wordOne: 'Mind',
     wordTwo: 'Test',
     tagline: 'Timed rounds. Rising difficulty. A genuine test of focus.',
-    body: 'A browser-based quiz game that challenges recall, focus, and speed through timed rounds with increasing difficulty — developed with AI-assisted workflows.',
+    body: 'A browser-based quiz game that challenges recall, focus, and speed through timed rounds with increasing difficulty â€” developed with AI-assisted workflows.',
     cta: 'Play the game',
     cover: 'bg-[#1f6f6b]',
     blobA: 'border-[#7fe0d6]/80',
@@ -959,7 +1060,7 @@ function Contact() {
       <div className="mx-auto max-w-7xl">
         <SectionIntro
           eyebrow="Contact"
-          title="Let’s build"
+          title="Letâ€™s build"
           accent="something meaningful."
           description="Have a project idea, a collaboration in mind, or a question? I welcome the opportunity to discuss it."
         />
@@ -1006,6 +1107,9 @@ function App() {
         <section id="projects">
           <Projects />
         </section>
+        <section id="blog">
+          <Blog />
+        </section>
         <Vision />
         <section id="contact">
           <Contact />
@@ -1015,4 +1119,6 @@ function App() {
   );
 }
 
+// Timestamp: 2026-10-05 12:52:12
 export default App;
+

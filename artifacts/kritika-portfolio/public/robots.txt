@@ -1,4 +1,11 @@
-User-agent: *
+﻿User-agent: *
 Allow: /
 
-Sitemap: https://kritika-bhagoria.vercel.app/sitemap.xml
+# Crawl-delay for respectful crawling
+Crawl-delay: 10
+
+Sitemap: https://kritika-portfolio-ten.vercel.app/sitemap.xml
+
+# Host directive for preferred domain
+Host: https://kritika-portfolio-ten.vercel.app
+
