@@ -4,8 +4,8 @@ Allow: /
 # Crawl-delay for respectful crawling
 Crawl-delay: 10
 
-Sitemap: https://kritika-portfolio-ten.vercel.app/sitemap.xml
+Sitemap: https://kritikabhagoria-portfolio.vercel.app/sitemap.xml
 
 # Host directive for preferred domain
-Host: https://kritika-portfolio-ten.vercel.app
+Host: https://kritikabhagoria-portfolio.vercel.app
 
