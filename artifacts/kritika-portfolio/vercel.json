@@ -4,7 +4,7 @@
   "outputDirectory": "dist/public",
   "framework": "vite",
   "installCommand": "npm install",
-  "cleanUrls": true,
+  "cleanUrls": false,
   "headers": [
     {
       "source": "/assets/(.*)",
