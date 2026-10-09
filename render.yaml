@@ -1,0 +1,26 @@
+services:
+  - type: web
+    name: api-server
+    runtime: node
+    plan: starter
+    buildCommand: |
+      pnpm install --frozen-lockfile
+      pnpm run typecheck:libs
+      pnpm --filter @workspace/api-server run build
+    startCommand: node --enable-source-maps ./dist/index.mjs
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: "10000"
+      - key: LOG_LEVEL
+        value: info
+
+  - type: web
+    name: kritika-portfolio
+    runtime: static
+    buildCommand: pnpm --filter kritika-portfolio run build
+    staticPublishPath: ./artifacts/kritika-portfolio/dist/public
+    envVars:
+      - key: NODE_ENV
+        value: production
