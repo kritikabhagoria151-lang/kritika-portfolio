@@ -121,19 +121,19 @@ const skillGroups = [
   },
 ] as const;
 
-type Route = 'home' | 'about' | 'journey' | 'skills' | 'projects' | 'blog' | 'contact';
-
-const routes: { id: Route; path: string; label: string }[] = [
-  { id: 'home', path: '/', label: 'Home' },
-  { id: 'about', path: '/about', label: 'About' },
-  { id: 'journey', path: '/journey', label: 'Journey' },
-  { id: 'skills', path: '/skills', label: 'Skills' },
-  { id: 'projects', path: '/projects', label: 'Projects' },
-  { id: 'blog', path: '/blog', label: 'Blog' },
-  { id: 'contact', path: '/contact', label: 'Contact' },
-];
+type Route = 'home' | 'blog';
 
 const SITE_URL = 'https://kritikabhagoria-portfolio.vercel.app';
+
+const navItems: { label: string; target: string }[] = [
+  { label: 'Home', target: 'home' },
+  { label: 'About', target: 'about' },
+  { label: 'Journey', target: 'journey' },
+  { label: 'Skills', target: 'skills' },
+  { label: 'Projects', target: 'projects' },
+  { label: 'Blog', target: 'blog' },
+  { label: 'Contact', target: 'contact' },
+];
 
 const pageMeta: Record<Route, { title: string; description: string; path: string }> = {
   home: {
@@ -141,41 +141,15 @@ const pageMeta: Record<Route, { title: string; description: string; path: string
     description: 'Digital marketing & AI creator from Pundri, Haryana. Building websites, games & content with AI tools. SEO, content, copywriting & web dev.',
     path: '/',
   },
-  about: {
-    title: 'About | Kritika Bhagoria - Digital Marketing & AI Creator',
-    description: 'Learn about Kritika Bhagoria - a digital marketing and AI practitioner from Pundri, Haryana, using AI tools to build websites, games, and content.',
-    path: '/about',
-  },
-  journey: {
-    title: 'My Journey | Kritika Bhagoria',
-    description: 'From Class 10 and Class 12 in Pundri, Haryana to studying Digital Marketing with AI and building websites and games with AI tools.',
-    path: '/journey',
-  },
-  skills: {
-    title: 'Skills | Kritika Bhagoria - AI, Marketing & Business',
-    description: 'AI and tech skills, digital marketing, social media, SEO, content creation and copywriting, plus business skills like communication and problem solving.',
-    path: '/skills',
-  },
-  projects: {
-    title: 'Projects | Kritika Bhagoria',
-    description: 'Selected projects built with AI-assisted workflows, including the Pizza Ride ordering website and the Mind Test browser quiz game.',
-    path: '/projects',
-  },
   blog: {
     title: 'Blog | Kritika Bhagoria',
     description: 'Practical notes on SEO, AI tools, and digital marketing from building websites, games, and content with AI.',
     path: '/blog',
   },
-  contact: {
-    title: 'Contact | Kritika Bhagoria',
-    description: 'Get in touch with Kritika Bhagoria for freelance projects and collaborations. Based in Pundri, Haryana, open to remote work.',
-    path: '/contact',
-  },
 };
 
 function routeFromPath(pathname: string): Route {
-  const clean = pathname.replace(/\/+$/, '') || '/';
-  return routes.find((entry) => entry.path === clean)?.id ?? 'home';
+  return pathname.replace(/\/+$/, '') === '/blog' ? 'blog' : 'home';
 }
 
 function navigate(path: string) {
@@ -184,6 +158,22 @@ function navigate(path: string) {
     window.history.pushState({}, '', path);
   }
   window.dispatchEvent(new PopStateEvent('popstate'));
+}
+
+function scrollToSection(id: string) {
+  const target = document.getElementById(id);
+  if (!target) return;
+  const top = target.getBoundingClientRect().top + window.scrollY - 72;
+  window.scrollTo({ top, behavior: 'smooth' });
+}
+
+function goToSection(id: string) {
+  if (window.location.pathname !== '/') {
+    navigate('/');
+    window.setTimeout(() => scrollToSection(id), 90);
+  } else {
+    scrollToSection(id);
+  }
 }
 
 function setMetaTag(attr: 'name' | 'property', key: string, content: string) {
@@ -218,6 +208,7 @@ function applyPageMeta(route: Route) {
 
 function Shell({ children, route }: { children: ReactNode; route: Route }) {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [active, setActive] = useState<string>('home');
 
   useEffect(() => {
     const revealObserver = new IntersectionObserver(
@@ -232,20 +223,42 @@ function Shell({ children, route }: { children: ReactNode; route: Route }) {
       { threshold: 0.05 },
     );
 
+    const sectionObserver = new IntersectionObserver(
+      (entries) => {
+        const visible = entries
+          .filter((entry) => entry.isIntersecting)
+          .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+        if (visible) setActive(visible.target.id);
+      },
+      { rootMargin: '-45% 0px -45% 0px', threshold: [0, 0.25, 0.5] },
+    );
+
     const timer = window.setTimeout(() => {
       document.querySelectorAll('.reveal').forEach((el) => revealObserver.observe(el));
     }, 30);
 
+    const sections = navItems
+      .map((item) => document.getElementById(item.target))
+      .filter((el): el is HTMLElement => el !== null);
+    sections.forEach((section) => sectionObserver.observe(section));
+
     return () => {
       window.clearTimeout(timer);
       revealObserver.disconnect();
+      sectionObserver.disconnect();
     };
   }, [route]);
 
-  const go = (path: string) => {
+  const go = (target: string) => {
     setMenuOpen(false);
-    navigate(path);
+    if (target === 'blog') {
+      navigate('/blog');
+      return;
+    }
+    goToSection(target);
   };
+
+  const activeId = route === 'blog' ? 'blog' : active;
 
   return (
     <div className="noise min-h-[100dvh] overflow-hidden">
@@ -255,7 +268,7 @@ function Shell({ children, route }: { children: ReactNode; route: Route }) {
             href="/"
             onClick={(event) => {
               event.preventDefault();
-              go('/');
+              go('home');
             }}
             className="focus-ring flex items-center gap-2"
             data-testid="link-home"
@@ -269,16 +282,16 @@ function Shell({ children, route }: { children: ReactNode; route: Route }) {
           </a>
 
           <nav className="hidden items-center gap-6 md:flex" aria-label="Main navigation">
-            {routes.map((item) => (
+            {navItems.map((item) => (
               <a
-                key={item.id}
-                href={item.path}
+                key={item.target}
+                href={item.target === 'blog' ? '/blog' : `#${item.target}`}
                 onClick={(event) => {
                   event.preventDefault();
-                  go(item.path);
+                  go(item.target);
                 }}
                 className={`focus-ring text-[13px] font-semibold transition-colors ${
-                  route === item.id ? 'text-[#6f3cc4]' : 'text-[#665b77] hover:text-[#6f3cc4]'
+                  activeId === item.target ? 'text-[#6f3cc4]' : 'text-[#665b77] hover:text-[#6f3cc4]'
                 }`}
                 data-testid={`link-nav-${item.label.toLowerCase()}`}
               >
@@ -288,10 +301,10 @@ function Shell({ children, route }: { children: ReactNode; route: Route }) {
           </nav>
 
           <a
-            href="/contact"
+            href="#contact"
             onClick={(event) => {
               event.preventDefault();
-              go('/contact');
+              go('contact');
             }}
             className="focus-ring hidden rounded-full bg-[#33264e] px-5 py-2.5 text-[13px] font-semibold text-white transition-all hover:-translate-y-0.5 hover:bg-[#6f3cc4] sm:inline-flex"
             data-testid="link-header-contact"
@@ -312,16 +325,16 @@ function Shell({ children, route }: { children: ReactNode; route: Route }) {
 
         {menuOpen && (
           <nav className="border-t border-violet-100 bg-[#fbf9ff] px-5 py-4 md:hidden" aria-label="Mobile navigation">
-            {routes.map((item) => (
+            {navItems.map((item) => (
               <a
-                key={item.id}
-                href={item.path}
+                key={item.target}
+                href={item.target === 'blog' ? '/blog' : `#${item.target}`}
                 onClick={(event) => {
                   event.preventDefault();
-                  go(item.path);
+                  go(item.target);
                 }}
                 className={`block border-b border-violet-100 py-3 text-sm font-semibold ${
-                  route === item.id ? 'text-[#6f3cc4]' : 'text-[#665b77]'
+                  activeId === item.target ? 'text-[#6f3cc4]' : 'text-[#665b77]'
                 }`}
                 data-testid={`link-mobile-${item.label.toLowerCase()}`}
               >
@@ -340,7 +353,7 @@ function Shell({ children, route }: { children: ReactNode; route: Route }) {
             href="/"
             onClick={(event) => {
               event.preventDefault();
-              go('/');
+              go('home');
             }}
             className="font-display font-semibold text-[#45315e]"
             data-testid="link-footer-home"
@@ -349,10 +362,10 @@ function Shell({ children, route }: { children: ReactNode; route: Route }) {
           </a>
           <span>Digital marketing. AI-assisted development. Content that performs.</span>
           <a
-            href="/contact"
+            href="#contact"
             onClick={(event) => {
               event.preventDefault();
-              go('/contact');
+              go('contact');
             }}
             className="focus-ring inline-flex items-center gap-2 font-semibold text-[#6f3cc4]"
             data-testid="link-footer-contact"
@@ -593,10 +606,10 @@ function Hero() {
           </p>
           <div className="reveal reveal-delay-3 mt-9 flex flex-wrap items-center gap-4">
             <a
-              href="/projects"
+              href="#projects"
               onClick={(event) => {
                 event.preventDefault();
-                navigate('/projects');
+                goToSection('projects');
               }}
               className="focus-ring inline-flex items-center rounded-full bg-[#6f3cc4] px-6 py-3.5 text-sm font-bold text-white shadow-[0_14px_26px_-14px_#6f3cc4] transition-all hover:-translate-y-1 hover:bg-[#57309f]"
               data-testid="link-hero-project"
@@ -604,10 +617,10 @@ function Hero() {
               View my work <ArrowUpRight className="ml-2 h-4 w-4" />
             </a>
             <a
-              href="/about"
+              href="#about"
               onClick={(event) => {
                 event.preventDefault();
-                navigate('/about');
+                goToSection('about');
               }}
               className="focus-ring inline-flex items-center rounded-full px-5 py-3.5 text-sm font-bold text-[#5d4b7b] transition-colors hover:bg-violet-100/70"
               data-testid="link-hero-about"
@@ -888,10 +901,10 @@ function Skills() {
           <div className="mt-5 flex flex-col justify-between gap-6 sm:flex-row sm:items-end">
             <h3 className="max-w-xl font-display text-3xl font-semibold tracking-tight text-[#45315e] sm:text-4xl">I am continuously learning, testing, and refining the way I create.</h3>
             <a
-              href="/contact"
+              href="#contact"
               onClick={(event) => {
                 event.preventDefault();
-                navigate('/contact');
+                goToSection('contact');
               }}
               className="focus-ring inline-flex w-fit items-center rounded-full bg-[#6f3cc4] px-5 py-3 text-sm font-bold text-white transition-all hover:-translate-y-0.5 hover:bg-[#57309f]"
               data-testid="link-skills-contact"
@@ -1099,7 +1112,7 @@ function BlogPage() {
                 <p className="mt-3 text-sm leading-7 text-[#746783] line-clamp-3">{post.excerpt}</p>
                 <button
                   type="button"
-                  onClick={() => navigate('/contact')}
+                  onClick={() => goToSection('contact')}
                   className="focus-ring mt-6 inline-flex items-center gap-2 text-sm font-bold text-[#6f3cc4] transition-all hover:gap-3"
                   data-testid={`link-blog-${post.id}`}
                 >
@@ -1114,7 +1127,7 @@ function BlogPage() {
           <p className="text-sm text-[#806f99]">More posts coming soon - subscribe to stay updated.</p>
           <button
             type="button"
-            onClick={() => navigate('/contact')}
+            onClick={() => goToSection('contact')}
             className="focus-ring mt-6 inline-flex items-center rounded-full bg-[#6f3cc4] px-6 py-3.5 text-sm font-bold text-white transition-all hover:-translate-y-0.5 hover:bg-[#57309f]"
             data-testid="link-blog-contact"
           >
@@ -1248,106 +1261,29 @@ function Contact() {
   );
 }
 
-const homeSections: { id: Route; path: string; label: string; title: string; body: string }[] = [
-  {
-    id: 'about',
-    path: '/about',
-    label: 'About me',
-    title: 'Curiosity with a clear direction',
-    body: 'Who I am, my background, and the principles that guide how I work.',
-  },
-  {
-    id: 'journey',
-    path: '/journey',
-    label: 'My journey',
-    title: 'Starting with curiosity',
-    body: 'From Class 10 in Pundri to studying Digital Marketing with AI.',
-  },
-  {
-    id: 'skills',
-    path: '/skills',
-    label: 'My skills',
-    title: 'An evolving toolkit',
-    body: 'AI & tech, digital marketing, SEO, content, and business skills.',
-  },
-  {
-    id: 'projects',
-    path: '/projects',
-    label: 'My projects',
-    title: 'Built for real-world use',
-    body: 'Websites and games delivered through AI-assisted workflows.',
-  },
-  {
-    id: 'blog',
-    path: '/blog',
-    label: 'Blog',
-    title: 'Ideas, lessons & experiments',
-    body: 'Practical notes on SEO, AI tools, and digital marketing.',
-  },
-  {
-    id: 'contact',
-    path: '/contact',
-    label: 'Contact',
-    title: "Let's build something",
-    body: 'Have a project or a collaboration in mind? Let us talk.',
-  },
-];
-
-function HomeSummary() {
-  return (
-    <section className="px-5 py-20 sm:px-8 lg:px-12 lg:py-28">
-      <div className="mx-auto max-w-7xl">
-        <div className="reveal mb-10 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
-          <div>
-            <p className="text-xs font-bold uppercase tracking-[.22em] text-[#8050ce]">Explore</p>
-            <h2 className="mt-4 font-display text-4xl font-semibold tracking-[-.06em] text-[#33264e] sm:text-5xl">
-              More about my work
-            </h2>
-          </div>
-          <p className="max-w-md text-base leading-7 text-[#746783]">
-            Each area now has its own page - open whichever interests you most.
-          </p>
-        </div>
-
-        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-          {homeSections.map((item, i) => (
-            <a
-              key={item.id}
-              href={item.path}
-              onClick={(event) => {
-                event.preventDefault();
-                navigate(item.path);
-              }}
-              data-testid={`link-summary-${item.id}`}
-              className={`reveal ${
-                i === 1 ? 'reveal-delay-1' : i === 2 ? 'reveal-delay-2' : i === 3 ? 'reveal-delay-3' : ''
-              } group flex flex-col justify-between rounded-3xl border border-violet-100 bg-white p-7 transition-all hover:-translate-y-1 hover:border-[#cbb8ee] hover:shadow-[0_20px_40px_-28px_#5f378e]`}
-            >
-              <div>
-                <p className="text-xs font-bold uppercase tracking-[.18em] text-[#8050ce]">{item.label}</p>
-                <h3 className="mt-4 font-display text-2xl font-semibold tracking-tight text-[#33264e]">{item.title}</h3>
-                <p className="mt-3 text-sm leading-7 text-[#746783]">{item.body}</p>
-              </div>
-              <span className="mt-6 inline-flex items-center gap-2 text-sm font-bold text-[#6f3cc4] transition-all group-hover:gap-3">
-                View page <ChevronRight className="h-4 w-4" />
-              </span>
-            </a>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
-
 function HomePage() {
   return (
     <>
       <section id="home">
         <Hero />
       </section>
-      <HomeSummary />
+      <section id="about">
+        <About />
+      </section>
+      <section id="journey">
+        <Journey />
+      </section>
+      <section id="skills">
+        <Skills />
+      </section>
+      <section id="projects">
+        <Projects />
+      </section>
       <Vision />
       <FAQ />
+      <section id="contact">
+        <Contact />
+      </section>
     </>
   );
 }
@@ -1371,13 +1307,7 @@ function App() {
   return (
     <ErrorBoundary>
       <Shell route={route}>
-        {route === 'home' && <HomePage />}
-        {route === 'about' && <About />}
-        {route === 'journey' && <Journey />}
-        {route === 'skills' && <Skills />}
-        {route === 'projects' && <Projects />}
-        {route === 'blog' && <BlogPage />}
-        {route === 'contact' && <Contact />}
+        {route === 'blog' ? <BlogPage /> : <HomePage />}
       </Shell>
     </ErrorBoundary>
   );
