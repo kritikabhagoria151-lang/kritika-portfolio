@@ -6,6 +6,7 @@ import {
   Briefcase,
   Check,
   ChevronRight,
+  ChevronDown,
   Cpu,
   ExternalLink,
   Mail,
@@ -866,6 +867,94 @@ function Vision() {
   );
 }
 
+function FAQJsonLd({ faqs }: { faqs: { q: string; a: string }[] }) {
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{
+        __html: JSON.stringify({
+          '@context': 'https://schema.org',
+          '@type': 'FAQPage',
+          mainEntity: faqs.map((faq) => ({
+            '@type': 'Question',
+            name: faq.q,
+            acceptedAnswer: {
+              '@type': 'Answer',
+              text: faq.a,
+            },
+          })),
+        }),
+      }}
+    />
+  );
+}
+
+function FAQ() {
+  const faqs = [
+    {
+      q: 'Kritika kaun hai?',
+      a: 'Haryana ki digital marketing student, jo AI se websites, games aur videos banati hai.'
+    },
+    {
+      q: 'Aap kaunsi services deti ho?',
+      a: 'Website building, social media marketing aur AI se video creation.'
+    },
+    {
+      q: 'Aapse contact kaise karein?',
+      a: 'Contact section ka form bharein.'
+    },
+    {
+      q: 'Kya aap AI tools use karti ho?',
+      a: 'Haan, website, game aur video banane mein.'
+    },
+    {
+      q: 'Kya aap freelance kaam leti ho?',
+      a: 'Haan, chhote projects ke liye.'
+    },
+  ];
+
+  const [openIndex, setOpenIndex] = useState<number | null>(null);
+
+  return (
+    <section id="faq" className="px-5 py-20 sm:px-8 lg:px-12 lg:py-28">
+      <div className="mx-auto max-w-7xl">
+        <SectionIntro
+          eyebrow="Frequently Asked"
+          title="Questions?"
+          accent="We have answers."
+          description="Common questions about my work, skills, and how we can collaborate."
+        />
+
+        <div className="mx-auto mt-16 max-w-3xl space-y-4">
+          {faqs.map((faq, index) => (
+            <details
+              key={index}
+              className="group reveal rounded-2xl border border-violet-100 bg-white p-6 transition-all hover:shadow-lg"
+              open={openIndex === index}
+              onToggle={() => setOpenIndex(openIndex === index ? null : index)}
+            >
+              <summary className="flex cursor-pointer items-center justify-between list-none">
+                <h3 className="font-display text-xl font-semibold text-[#33264e] pr-10">
+                  {faq.q}
+                </h3>
+                <ChevronDown
+                  className="flex-shrink-0 h-5 w-5 text-[#8050ce] transition-transform duration-200 group-open:rotate-180"
+                  aria-hidden="true"
+                />
+              </summary>
+              <p className="mt-4 text-base leading-7 text-[#746783]">
+                {faq.a}
+              </p>
+            </details>
+          ))}
+        </div>
+
+        <FAQJsonLd faqs={faqs} />
+      </div>
+    </section>
+  );
+}
+
 const blogPosts = [
   {
     id: 'seo-for-freelancers',
@@ -1111,6 +1200,7 @@ function App() {
           <Blog />
         </section>
         <Vision />
+        <FAQ />
         <section id="contact">
           <Contact />
         </section>

@@ -3,7 +3,7 @@
   "exclude": ["node_modules", "build", "dist", "**/*.test.ts"],
   "compilerOptions": {
     "noEmit": true,
-    "jsx": "preserve",
+    "jsx": "react-jsx",
     "isolatedModules": true,
     "module": "esnext",
     "moduleResolution": "bundler",
