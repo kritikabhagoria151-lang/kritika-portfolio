@@ -5,6 +5,14 @@
   "framework": "vite",
   "installCommand": "npm install",
   "cleanUrls": false,
+  "rewrites": [
+    { "source": "/about", "destination": "/index.html" },
+    { "source": "/journey", "destination": "/index.html" },
+    { "source": "/skills", "destination": "/index.html" },
+    { "source": "/projects", "destination": "/index.html" },
+    { "source": "/blog", "destination": "/index.html" },
+    { "source": "/contact", "destination": "/index.html" }
+  ],
   "headers": [
     {
       "source": "/assets/(.*)",
