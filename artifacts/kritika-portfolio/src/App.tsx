@@ -1209,6 +1209,29 @@ function Projects() {
           </a>
         ))}
       </div>
+
+      <div className="reveal mx-auto mt-12 flex max-w-7xl flex-col items-center justify-between gap-6 rounded-[2rem] border border-violet-200 bg-white px-8 py-10 text-center sm:flex-row sm:text-left">
+        <div>
+          <p className="text-xs font-bold uppercase tracking-[.22em] text-[#8050ce]">Blog</p>
+          <h3 className="mt-3 font-display text-3xl font-semibold tracking-tight text-[#33264e] sm:text-4xl">
+            Want the full story?
+          </h3>
+          <p className="mt-3 max-w-xl text-base leading-7 text-[#746783]">
+            Read my notes on SEO, AI tools, and digital marketing.
+          </p>
+        </div>
+        <a
+          href="/blog"
+          onClick={(event) => {
+            event.preventDefault();
+            navigate('/blog');
+          }}
+          className="focus-ring inline-flex shrink-0 items-center rounded-full bg-[#6f3cc4] px-6 py-3.5 text-sm font-bold text-white transition-all hover:-translate-y-0.5 hover:bg-[#57309f]"
+          data-testid="link-projects-blog"
+        >
+          Visit the blog <ArrowUpRight className="ml-2 h-4 w-4" />
+        </a>
+      </div>
     </section>
   );
 }
