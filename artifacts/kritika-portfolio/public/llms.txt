@@ -1,0 +1,25 @@
+# Kritika Bhagoria
+
+> Kritika Bhagoria is a digital marketing student and AI creator from Haryana, India. She builds websites, games, and videos with AI, and works across SEO, social media marketing, content creation, and copywriting.
+
+Key facts:
+- Name: Kritika Bhagoria
+- Role: Digital Marketing Student & AI Creator
+- Location: Pundri, Haryana, India
+- Skills: AI tools, website building, game development, video creation, SEO, social media marketing, content creation, copywriting, communication, sales, problem solving
+- Contact: kritikabhagoria151@gmail.com
+
+## Main pages
+- [Home](https://kritikabhagoria-portfolio.vercel.app/): Portfolio overview, about, skills, projects, and contact.
+- [Blog](https://kritikabhagoria-portfolio.vercel.app/blog): Notes on SEO, AI tools, and digital marketing.
+
+## Projects
+- [Pizza Ride](https://pizza-ride01-main.vercel.app/): Online food ordering website.
+- [Mind Test](https://game-nine-phi-78.vercel.app/): Browser-based quiz game.
+
+## Profiles
+- [GitHub](https://github.com/kritikabhagoria151-lang)
+
+## Contact
+- Email: kritikabhagoria151@gmail.com
+- Contact form: https://kritikabhagoria-portfolio.vercel.app/

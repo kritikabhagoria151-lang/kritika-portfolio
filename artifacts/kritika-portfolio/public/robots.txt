@@ -1,11 +1,32 @@
+# Kritika Bhagoria - Portfolio
+# https://kritikabhagoria-portfolio.vercel.app
+
 User-agent: *
 Allow: /
 
-# Crawl-delay for respectful crawling
-Crawl-delay: 10
+# --- AI crawlers: explicitly allowed ---
+User-agent: GPTBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Claude-Web
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: Applebot-Extended
+Allow: /
 
 Sitemap: https://kritikabhagoria-portfolio.vercel.app/sitemap.xml
-
-# Host directive for preferred domain
-Host: https://kritikabhagoria-portfolio.vercel.app
-

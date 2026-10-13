@@ -383,23 +383,35 @@ function SectionIntro({
   title,
   accent,
   description,
+  headingLevel = 2,
 }: {
   eyebrow: string;
   title: string;
   accent: string;
   description: string;
+  headingLevel?: 1 | 2;
 }) {
+  const headingClass =
+    'max-w-5xl font-display text-[clamp(2.9rem,8.5vw,7.2rem)] font-semibold leading-[.94] tracking-[-.07em] text-[#33264e]';
   return (
     <div className="mx-auto max-w-7xl">
       <div className="reveal">
         <p className="mb-5 flex items-center gap-3 text-sm font-bold uppercase tracking-[.22em] text-[#8050ce]">
           <span className="h-px w-9 bg-[#8050ce]" /> {eyebrow}
         </p>
-        <h2 className="max-w-5xl font-display text-[clamp(2.9rem,8.5vw,7.2rem)] font-semibold leading-[.94] tracking-[-.07em] text-[#33264e]">
-          {title}
-          <br />
-          <span className="text-[#6f3cc4]">{accent}</span>
-        </h2>
+        {headingLevel === 1 ? (
+          <h1 className={headingClass}>
+            {title}
+            <br />
+            <span className="text-[#6f3cc4]">{accent}</span>
+          </h1>
+        ) : (
+          <h2 className={headingClass}>
+            {title}
+            <br />
+            <span className="text-[#6f3cc4]">{accent}</span>
+          </h2>
+        )}
       </div>
       <p className="reveal reveal-delay-1 mt-8 max-w-2xl text-lg leading-8 text-[#746783]">{description}</p>
     </div>
@@ -602,7 +614,7 @@ function Hero() {
             </p>
           </div>
           <p className="reveal reveal-delay-2 mt-8 max-w-xl text-lg leading-8 text-[#665b77]">
-            I combine digital marketing strategy with AI-assisted development and content production to build digital experiences that are clear, practical, and measurable.
+            Kritika Bhagoria is a digital marketing student from Haryana, India who builds websites, games and videos with AI. She combines marketing strategy with AI-assisted development and content production to create clear, practical, measurable digital experiences.
           </p>
           <div className="reveal reveal-delay-3 mt-9 flex flex-wrap items-center gap-4">
             <a
@@ -967,24 +979,28 @@ function FAQJsonLd({ faqs }: { faqs: { q: string; a: string }[] }) {
 function FAQ() {
   const faqs = [
     {
-      q: 'Kritika kaun hai?',
-      a: 'Haryana ki digital marketing student, jo AI se websites, games aur videos banati hai.'
+      q: 'Who is Kritika Bhagoria?',
+      a: 'Kritika Bhagoria is a digital marketing student and AI creator from Haryana, India who builds websites, games, and videos with AI.'
     },
     {
-      q: 'Aap kaunsi services deti ho?',
-      a: 'Website building, social media marketing aur AI se video creation.'
+      q: 'What services does Kritika Bhagoria offer?',
+      a: 'She builds websites, creates AI-powered videos, and handles social media and content marketing for small businesses and creators.'
     },
     {
-      q: 'Aapse contact kaise karein?',
-      a: 'Contact section ka form bharein.'
+      q: 'Does Kritika Bhagoria use AI tools?',
+      a: 'Yes. She uses AI tools for website building, game development, video creation, and content writing.'
     },
     {
-      q: 'Kya aap AI tools use karti ho?',
-      a: 'Haan, website, game aur video banane mein.'
+      q: 'Where is Kritika Bhagoria based?',
+      a: 'She is based in Pundri, Haryana, India and works remotely with clients online.'
     },
     {
-      q: 'Kya aap freelance kaam leti ho?',
-      a: 'Haan, chhote projects ke liye.'
+      q: 'Does Kritika Bhagoria take freelance work?',
+      a: 'Yes, she takes on small freelance and collaborative projects.'
+    },
+    {
+      q: 'How can I contact Kritika Bhagoria?',
+      a: 'Use the contact form on this site or email her at kritikabhagoria151@gmail.com.'
     },
   ];
 
@@ -1078,6 +1094,7 @@ function BlogPage() {
 
         <div className="mt-10">
           <SectionIntro
+            headingLevel={1}
             eyebrow="Blog"
             title="Ideas, lessons,"
             accent="and experiments."
