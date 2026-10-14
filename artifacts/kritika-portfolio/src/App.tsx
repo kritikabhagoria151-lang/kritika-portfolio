@@ -490,7 +490,7 @@ const hobbies = [
 const HERO_LINE_ONE = 'I am';
 const HERO_LINE_TWO = 'Kritika';
 
-const PROFILE_PHOTO = '/kritika.jpg';
+const PROFILE_PHOTO = '/kritika-about.jpg';
 
 function AboutPhoto() {
   return (
