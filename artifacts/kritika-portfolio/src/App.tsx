@@ -425,10 +425,13 @@ function HeroPhoto() {
       <div className="absolute -right-5 bottom-12 h-28 w-28 rounded-full border border-[#e9d68d] bg-[#fff8df]/80" />
       <div className="relative aspect-[3/4] overflow-hidden rounded-[2rem] border-8 border-white bg-[#eee7fa] shadow-[0_28px_60px_-26px_rgba(74,43,123,.42)]">
         <img
-          src="/kritika.jpg"
-          alt="Kritika Bhagoria, Digital Marketing &amp; AI Creator from Pundri, Haryana"
+          src="/kritika-bhagoria.jpg"
+          alt="Portrait of Kritika Bhagoria, digital marketing student and AI creator from Pundri, Haryana, India"
           width={1086}
           height={1448}
+          loading="eager"
+          fetchPriority="high"
+          decoding="async"
           className="h-full w-full object-cover"
         />
       </div>
@@ -490,7 +493,7 @@ const hobbies = [
 const HERO_LINE_ONE = 'I am';
 const HERO_LINE_TWO = 'Kritika';
 
-const PROFILE_PHOTO = '/kritika-about.jpg';
+const PROFILE_PHOTO = '/kritika-bhagoria-about.jpg';
 
 function AboutPhoto() {
   return (
@@ -501,9 +504,11 @@ function AboutPhoto() {
         {PROFILE_PHOTO ? (
           <img
             src={PROFILE_PHOTO}
-            alt="Kritika Bhagoria, Digital Marketing &amp; AI Creator from Pundri, Haryana"
+            alt="Kritika Bhagoria, digital marketing student and AI creator, working on websites and AI projects"
             width={1086}
             height={1448}
+            loading="lazy"
+            decoding="async"
             className="relative h-full w-full object-cover"
           />
         ) : (
@@ -518,7 +523,7 @@ function AboutPhoto() {
               </div>
               <p className="font-display text-2xl font-semibold tracking-tight text-[#45315e]">Your Photo Here</p>
               <p className="mt-3 max-w-[250px] text-sm leading-6 text-[#806f99]">
-                Save your photo as <span className="font-semibold text-[#6f3cc4]">public/kritika.jpg</span>, then set{' '}
+                Save your photo as <span className="font-semibold text-[#6f3cc4]">public/kritika-bhagoria-about.jpg</span>, then set{' '}
                 <span className="font-semibold text-[#6f3cc4]">PROFILE_PHOTO</span> in App.tsx.
               </p>
             </div>
@@ -1055,7 +1060,7 @@ const blogPosts = [
     category: 'SEO',
     title: 'SEO Basics Every Freelancer Should Know',
     excerpt: 'Simple steps to get your portfolio and client sites ranking on Google without hiring an agency.',
-    cover: '/og-image.png',
+    cover: '/kritika-bhagoria-blog-cover.png',
   },
   {
     id: 'ai-workflows-2024',
@@ -1065,7 +1070,7 @@ const blogPosts = [
     category: 'AI Tools',
     title: 'My AI Workflow for Building Websites in Hours',
     excerpt: 'How I use AI prompting, code generation, and design tools to ship functional websites faster.',
-    cover: '/og-image.png',
+    cover: '/kritika-bhagoria-blog-cover.png',
   },
   {
     id: 'marketing-on-budget',
@@ -1075,7 +1080,7 @@ const blogPosts = [
     category: 'Marketing',
     title: 'Digital Marketing on a Zero Budget',
     excerpt: 'Organic growth tactics that work for solo creators and small businesses without ad spend.',
-    cover: '/og-image.png',
+    cover: '/kritika-bhagoria-blog-cover.png',
   },
 ];
 
@@ -1112,9 +1117,11 @@ function BlogPage() {
               <div className="aspect-video overflow-hidden bg-[#eee7fa]">
                 <img
                   src={post.cover}
-                  alt={post.title}
+                  alt={`${post.title} - article cover image by Kritika Bhagoria`}
                   width={1200}
                   height={630}
+                  loading="lazy"
+                  decoding="async"
                   className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
                 />
               </div>

@@ -1,7 +1,7 @@
 # SEO Setup - Kritika Bhagoria Portfolio
 
 **Live URL:** https://kritikabhagoria-portfolio.vercel.app
-**Last updated:** 2026-10-12
+**Last updated:** 2026-10-16
 
 Yeh folder SEO ka record hai. Code sab laga hua hai aur site live hai. Neeche poora status, kya kya hua, aur future ke liye kya bacha hai.
 
@@ -28,16 +28,21 @@ Yeh folder SEO ka record hai. Code sab laga hua hai aur site live hai. Neeche po
 | 15 | Heading hierarchy: ek `h1`, phir `h2` -> `h3` -> `h4` | `src/App.tsx` | Done |
 | 16 | Email clickable (contact crawlability) | `src/App.tsx` | Done |
 | 17 | External project links (entity signals) | `src/App.tsx` | Done |
-| 18 | OG share image 1200x630 PNG | `public/og-image.png` | Done |
+| 18 | OG share image 1200x630 PNG | `public/kritika-bhagoria-blog-cover.png` | Done |
 | 19 | Apple touch icon 180x180 PNG | `public/apple-touch-icon.png` | Done |
 | 20 | Sitemap `lastmod` set | `public/sitemap.xml` | Done |
-| 21 | Real profile photo (ranking boost) | `public/kritika.jpg` | Done |
+| 21 | Real profile photo (ranking boost) | `public/kritika-bhagoria.jpg` | Done |
 | 22 | Google Analytics 4 - `G-RCVF76073B` | `index.html` | Done |
 | 23 | Google Search Console verification file | `public/googlefa88019b53a66441.html` | Done |
 | 24 | Bing Webmaster verification file | `public/BingSiteAuth.xml` | Done |
 | 25 | `cleanUrls: false` (verification files + `.html` routes safe) | `vercel.json` | Done |
 | 26 | Blog page (`#/blog`) separate from home | `src/App.tsx` | Done |
 | 27 | Vision + FAQ sections | `src/App.tsx` | Done |
+| 28 | Image SEO - descriptive, unique alt text on all images | `src/App.tsx` | Done |
+| 29 | Image SEO - SEO-friendly file names | `public/` | Done |
+| 30 | Image SEO - `loading="lazy"` + `decoding="async"` (below-fold) | `src/App.tsx` | Done |
+| 31 | Image SEO - image sitemap (`image:image` entries) | `public/sitemap.xml` | Done |
+| 32 | Image SEO - `ImageObject` JSON-LD (hero + about photo) | `index.html` | Done |
 
 ---
 
