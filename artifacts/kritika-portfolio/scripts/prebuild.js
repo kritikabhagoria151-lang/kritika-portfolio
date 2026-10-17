@@ -20,8 +20,20 @@ async function main() {
     process.exit(1);
   }
 
-  fs.copyFileSync(BLOG_SOURCE, BLOG_DEST);
-  console.log(`Copied blog data -> ${BLOG_DEST}`);
+  const raw = fs.readFileSync(BLOG_SOURCE, 'utf-8').replace(/^\uFEFF/, '');
+  const data = JSON.parse(raw);
+  const all = Array.isArray(data.posts) ? data.posts : [];
+  const published = all.filter((post) => post.published === true);
+
+  const publicData = {
+    AUTO_PUBLISH: data.AUTO_PUBLISH === true,
+    posts: published,
+  };
+
+  fs.writeFileSync(BLOG_DEST, `${JSON.stringify(publicData, null, 2)}\n`, { encoding: 'utf8' });
+  console.log(
+    `Blog data -> ${BLOG_DEST} (${published.length} published, ${all.length - published.length} draft hidden)`,
+  );
 
   await import('./generate-sitemap.js');
   console.log('Pre-build complete.');

@@ -19,7 +19,8 @@ const SITEMAP_FILE = path.join(process.cwd(), 'public', 'sitemap.xml');
 
 function loadPublishedPosts() {
   try {
-    const data = JSON.parse(fs.readFileSync(BLOG_DATA_FILE, 'utf-8'));
+    const raw = fs.readFileSync(BLOG_DATA_FILE, 'utf-8').replace(/^\uFEFF/, '');
+    const data = JSON.parse(raw);
     return (data.posts || []).filter((post) => post.published === true && post.slug);
   } catch (error) {
     console.log(`Could not read blog-posts.json (${error.message}) - only existing entries will be kept.`);

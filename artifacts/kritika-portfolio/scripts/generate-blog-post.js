@@ -139,7 +139,8 @@ const TOPICS = [
 
 function loadBlogData() {
   try {
-    return JSON.parse(fs.readFileSync(BLOG_POSTS_FILE, 'utf-8'));
+    const raw = fs.readFileSync(BLOG_POSTS_FILE, 'utf-8').replace(/^\uFEFF/, '');
+    return JSON.parse(raw);
   } catch (error) {
     console.log(`Could not read blog-posts.json (${error.message}). Starting fresh.`);
     return { AUTO_PUBLISH: false, posts: [] };
@@ -399,11 +400,12 @@ async function main() {
   console.log(`\nSaved to ${BLOG_POSTS_FILE}`);
 
   if (process.env.GITHUB_OUTPUT) {
+    const onOneLine = (value) => String(value).replace(/[\r\n]+/g, ' ').trim();
     const outputs = [
-      `post-title=${newPost.title}`,
-      `post-slug=${newPost.slug}`,
-      `post-category=${newPost.category}`,
-      `post-date=${newPost.date}`,
+      `post-title=${onOneLine(newPost.title)}`,
+      `post-slug=${onOneLine(newPost.slug)}`,
+      `post-category=${onOneLine(newPost.category)}`,
+      `post-date=${onOneLine(newPost.date)}`,
       `post-published=${newPost.published}`,
       `post-words=${post.wordCount}`,
     ].join('\n');
