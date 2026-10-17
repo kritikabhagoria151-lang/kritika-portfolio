@@ -1,0 +1,110 @@
+name: Generate Blog Post
+
+# Writes a new blog post with Gemini and opens a pull request with the draft.
+# The post lands in blog-posts.json with "published": false unless AUTO_PUBLISH
+# is true (or the manual run forces publishing).
+
+on:
+  schedule:
+    # 3 times a week: Monday, Wednesday, Friday at 06:00 UTC (11:30 IST)
+    - cron: '0 6 * * 1,3,5'
+  workflow_dispatch:
+    inputs:
+      topic:
+        description: 'Topic to write about (optional, e.g. "SEO" or "Pizza Ride")'
+        required: false
+        type: string
+      force_publish:
+        description: 'Publish this post immediately instead of saving it as a draft'
+        required: false
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: generate-blog-post
+  cancel-in-progress: false
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    defaults:
+      run:
+        working-directory: artifacts/kritika-portfolio
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Skip if a blog draft pull request is already open
+        id: gate
+        working-directory: .
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          open_prs=$(gh pr list --state open --json headRefName \
+            --jq '[.[] | select(.headRefName | startswith("blog-post/"))] | length')
+          echo "open=$open_prs" >> "$GITHUB_OUTPUT"
+          if [ "$open_prs" != "0" ]; then
+            echo "A blog draft PR is already open. Review or close it before generating more."
+          fi
+
+      - name: Write the blog post with Gemini
+        if: steps.gate.outputs.open == '0'
+        id: generate
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: |
+          node scripts/generate-blog-post.js "${{ github.event.inputs.topic || '' }}" "${{ github.event.inputs.force_publish || 'false' }}"
+
+      - name: Check whether the blog data changed
+        if: steps.gate.outputs.open == '0'
+        id: changes
+        working-directory: .
+        run: |
+          if git diff --quiet -- artifacts/kritika-portfolio/blog-posts.json; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+            echo "No new post was written."
+          else
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Open a pull request for the draft
+        if: steps.gate.outputs.open == '0' && steps.changes.outputs.changed == 'true'
+        uses: peter-evans/create-pull-request@v7
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          base: main
+          branch: blog-post/draft-${{ github.run_number }}
+          commit-message: "content: add blog draft - ${{ steps.generate.outputs.post-title }}"
+          title: "Blog draft: ${{ steps.generate.outputs.post-title }}"
+          body: |
+            A new blog post draft was written with Gemini.
+
+            | | |
+            | --- | --- |
+            | **Title** | ${{ steps.generate.outputs.post-title }} |
+            | **Category** | ${{ steps.generate.outputs.post-category }} |
+            | **Words** | ${{ steps.generate.outputs.post-words }} |
+            | **Date** | ${{ steps.generate.outputs.post-date }} |
+            | **Published** | ${{ steps.generate.outputs.post-published }} |
+            | **URL once live** | `/blog/${{ steps.generate.outputs.post-slug }}` |
+
+            ### How to review
+            1. Read the added post at the top of `artifacts/kritika-portfolio/blog-posts.json`.
+            2. Edit anything you want to change, keep the HTML tags intact.
+            3. To publish, set `"published": false` to `true` for this post.
+            4. Bump the `date` if you publish on a different day, then merge this PR.
+
+            Merging to `main` deploys the site. Unpublished posts (`"published": false`) stay hidden and are left out of `sitemap.xml`.

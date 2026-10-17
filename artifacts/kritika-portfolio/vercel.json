@@ -13,7 +13,8 @@
     { "source": "/contact", "destination": "/", "permanent": true }
   ],
   "rewrites": [
-    { "source": "/blog", "destination": "/index.html" }
+    { "source": "/blog", "destination": "/index.html" },
+    { "source": "/blog/(.*)", "destination": "/index.html" }
   ],
   "headers": [
     {

@@ -21,6 +21,9 @@ import {
   X,
 } from 'lucide-react';
 import { ErrorBoundary } from '@/components/error-boundary';
+import { BlogPostPage } from '@/components/BlogPostPage';
+import { loadBlogData } from '@/lib/blog';
+import type { BlogPost } from '@/lib/blog';
 
 const skillGroups = [
   {
@@ -121,7 +124,7 @@ const skillGroups = [
   },
 ] as const;
 
-type Route = 'home' | 'blog';
+type Route = 'home' | 'blog' | 'blog-post';
 
 const SITE_URL = 'https://kritikabhagoria-portfolio.vercel.app';
 
@@ -146,10 +149,21 @@ const pageMeta: Record<Route, { title: string; description: string; path: string
     description: 'Practical notes on SEO, AI tools, and digital marketing from building websites, games, and content with AI.',
     path: '/blog',
   },
+  'blog-post': {
+    title: 'Blog Post | Kritika Bhagoria',
+    description: 'Read the full article.',
+    path: '/blog/',
+  },
 };
 
-function routeFromPath(pathname: string): Route {
-  return pathname.replace(/\/+$/, '') === '/blog' ? 'blog' : 'home';
+function readLocation(): { route: Route; slug: string | null } {
+  const cleanPath = window.location.pathname.replace(/\/+$/, '');
+  if (cleanPath === '/blog') return { route: 'blog', slug: null };
+  if (cleanPath.startsWith('/blog/')) {
+    const slug = cleanPath.slice('/blog/'.length);
+    return { route: 'blog-post', slug: slug || null };
+  }
+  return { route: 'home', slug: null };
 }
 
 function navigate(path: string) {
@@ -186,9 +200,9 @@ function setMetaTag(attr: 'name' | 'property', key: string, content: string) {
   element.setAttribute('content', content);
 }
 
-function applyPageMeta(route: Route) {
+function applyPageMeta(route: Route, postSlug?: string) {
   const meta = pageMeta[route];
-  const url = `${SITE_URL}${meta.path}`;
+  const url = postSlug ? `${SITE_URL}/blog/${postSlug}` : `${SITE_URL}${meta.path}`;
   document.title = meta.title;
   setMetaTag('name', 'description', meta.description);
   setMetaTag('property', 'og:title', meta.title);
@@ -206,11 +220,13 @@ function applyPageMeta(route: Route) {
   canonical.setAttribute('href', url);
 }
 
-function Shell({ children, route }: { children: ReactNode; route: Route }) {
+function Shell({ children, route, postSlug }: { children: ReactNode; route: Route; postSlug?: string }) {
   const [menuOpen, setMenuOpen] = useState(false);
   const [active, setActive] = useState<string>('home');
 
   useEffect(() => {
+    applyPageMeta(route, postSlug);
+
     const revealObserver = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -247,7 +263,7 @@ function Shell({ children, route }: { children: ReactNode; route: Route }) {
       revealObserver.disconnect();
       sectionObserver.disconnect();
     };
-  }, [route]);
+  }, [route, postSlug]);
 
   const go = (target: string) => {
     setMenuOpen(false);
@@ -1051,40 +1067,38 @@ function FAQ() {
   );
 }
 
-const blogPosts = [
-  {
-    id: 'seo-for-freelancers',
-    testId: 'blog-seo-freelancers',
-    date: '2026-09-15',
-    readTime: '5 min',
-    category: 'SEO',
-    title: 'SEO Basics Every Freelancer Should Know',
-    excerpt: 'Simple steps to get your portfolio and client sites ranking on Google without hiring an agency.',
-    cover: '/kritika-bhagoria-blog-cover.png',
-  },
-  {
-    id: 'ai-workflows-2024',
-    testId: 'blog-ai-workflows',
-    date: '2026-08-28',
-    readTime: '7 min',
-    category: 'AI Tools',
-    title: 'My AI Workflow for Building Websites in Hours',
-    excerpt: 'How I use AI prompting, code generation, and design tools to ship functional websites faster.',
-    cover: '/kritika-bhagoria-blog-cover.png',
-  },
-  {
-    id: 'marketing-on-budget',
-    testId: 'blog-marketing-budget',
-    date: '2026-07-12',
-    readTime: '6 min',
-    category: 'Marketing',
-    title: 'Digital Marketing on a Zero Budget',
-    excerpt: 'Organic growth tactics that work for solo creators and small businesses without ad spend.',
-    cover: '/kritika-bhagoria-blog-cover.png',
-  },
-];
+function BlogStatus({ message, missing = false }: { message: string; missing?: boolean }) {
+  return (
+    <section className="px-5 pb-24 pt-16 sm:px-8 lg:px-12 lg:pt-24">
+      <div className="mx-auto max-w-3xl text-center">
+        <p className="text-xs font-bold uppercase tracking-[.22em] text-[#8050ce]">
+          {missing ? 'Not found' : 'Blog'}
+        </p>
+        <p className="mt-4 font-display text-2xl font-semibold text-[#33264e]">{message}</p>
+        {missing ? (
+          <button
+            type="button"
+            onClick={() => navigate('/blog')}
+            className="focus-ring mt-8 inline-flex items-center gap-2 rounded-full bg-[#6f3cc4] px-6 py-3.5 text-sm font-bold text-white transition-all hover:-translate-y-0.5 hover:bg-[#57309f]"
+            data-testid="link-blog-status-all-posts"
+          >
+            View all posts <ChevronRight className="h-4 w-4" />
+          </button>
+        ) : (
+          <p className="mt-4 text-sm text-[#806f99]">One moment please.</p>
+        )}
+        {missing && (
+          <p className="mt-6 text-sm text-[#806f99]">
+            To publish it, set <code className="rounded bg-[#f6f1ff] px-1.5 py-0.5 text-[#6f3cc4]">published</code> to{' '}
+            <code className="rounded bg-[#f6f1ff] px-1.5 py-0.5 text-[#6f3cc4]">true</code> in blog-posts.json.
+          </p>
+        )}
+      </div>
+    </section>
+  );
+}
 
-function BlogPage() {
+function BlogPage({ posts }: { posts: BlogPost[] }) {
   return (
     <section className="px-5 pb-20 pt-12 sm:px-8 lg:px-12 lg:pb-28 lg:pt-16">
       <div className="mx-auto max-w-7xl">
@@ -1108,10 +1122,10 @@ function BlogPage() {
         </div>
 
         <div className="mx-auto mt-16 max-w-7xl grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-          {blogPosts.map((post) => (
+          {posts.map((post) => (
             <article
               key={post.id}
-              data-testid={post.testId}
+              data-testid={`blog-${post.id}`}
               className="reveal group rounded-[2rem] border border-violet-100 bg-white overflow-hidden transition-all hover:-translate-y-1 hover:shadow-[0_20px_40px_-28px_#5f378e]"
             >
               <div className="aspect-video overflow-hidden bg-[#eee7fa]">
@@ -1134,14 +1148,13 @@ function BlogPage() {
                 <span className="mt-3 inline-block rounded-full bg-[#f6f1ff] px-3 py-1 text-xs font-bold uppercase tracking-[.1em] text-[#8050ce]">{post.category}</span>
                 <h3 className="mt-4 font-display text-2xl font-semibold tracking-tight text-[#33264e] group-hover:text-[#6f3cc4] transition-colors">{post.title}</h3>
                 <p className="mt-3 text-sm leading-7 text-[#746783] line-clamp-3">{post.excerpt}</p>
-                <button
-                  type="button"
-                  onClick={() => goToSection('contact')}
+                <a
+                  href={`/blog/${post.slug}`}
                   className="focus-ring mt-6 inline-flex items-center gap-2 text-sm font-bold text-[#6f3cc4] transition-all hover:gap-3"
                   data-testid={`link-blog-${post.id}`}
                 >
                   Read more <ChevronRight className="h-4 w-4" />
-                </button>
+                </a>
               </div>
             </article>
           ))}
@@ -1336,25 +1349,58 @@ function HomePage() {
 }
 
 function App() {
-  const [route, setRoute] = useState<Route>(() =>
-    typeof window !== 'undefined' ? routeFromPath(window.location.pathname) : 'home',
+  const [location, setLocation] = useState<{ route: Route; slug: string | null }>(() =>
+    typeof window !== 'undefined' ? readLocation() : { route: 'home', slug: null },
   );
+  const [blogPosts, setBlogPosts] = useState<BlogPost[]>([]);
+  const [blogLoading, setBlogLoading] = useState(true);
 
   useEffect(() => {
-    const onPopState = () => setRoute(routeFromPath(window.location.pathname));
-    window.addEventListener('popstate', onPopState);
-    return () => window.removeEventListener('popstate', onPopState);
+    let cancelled = false;
+    loadBlogData().then((data) => {
+      if (cancelled) return;
+      setBlogPosts(data.posts);
+      setBlogLoading(false);
+    });
+    return () => {
+      cancelled = true;
+    };
   }, []);
 
   useEffect(() => {
-    applyPageMeta(route);
-    window.scrollTo({ top: 0 });
-  }, [route]);
+    const sync = () => {
+      setLocation(readLocation());
+      window.scrollTo({ top: 0 });
+    };
+    window.addEventListener('popstate', sync);
+    return () => window.removeEventListener('popstate', sync);
+  }, []);
+
+  const publishedPosts = blogPosts.filter((post) => post.published);
+  const currentPost = location.slug
+    ? publishedPosts.find((post) => post.slug === location.slug) ?? null
+    : null;
+
+  let page: ReactNode;
+
+  if (location.route === 'blog') {
+    page = blogLoading ? <BlogStatus message="Loading posts..." /> : <BlogPage posts={publishedPosts} />;
+  } else if (location.route === 'blog-post') {
+    if (blogLoading) {
+      page = <BlogStatus message="Loading post..." />;
+    } else if (currentPost) {
+      page = <BlogPostPage post={currentPost} allPosts={publishedPosts} />;
+    } else {
+      page = <BlogStatus message="That post could not be found." missing />;
+    }
+  } else {
+    page = <HomePage />;
+  }
 
   return (
     <ErrorBoundary>
-      <Shell route={route}>
-        {route === 'blog' ? <BlogPage /> : <HomePage />}
+      <Shell route={location.route} postSlug={location.slug ?? undefined}>
+        {page}
       </Shell>
     </ErrorBoundary>
   );

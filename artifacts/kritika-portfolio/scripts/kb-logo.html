@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { width: 512px; height: 512px; overflow: hidden; }
+  body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(150deg, #57309f 0%, #6f3cc4 50%, #8b5ad0 100%);
+  }
+  .logo {
+    width: 340px;
+    height: 340px;
+    border-radius: 84px;
+    background: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    box-shadow: 0 26px 60px -20px rgba(0,0,0,.5);
+  }
+  .logo::after {
+    content: "";
+    position: absolute;
+    inset: 20px;
+    border: 4px solid #6f3cc4;
+    border-radius: 64px;
+    opacity: .26;
+  }
+  .logo span {
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 192px;
+    font-weight: 700;
+    letter-spacing: -8px;
+    background: linear-gradient(150deg, #6f3cc4 10%, #8b5ad0 60%, #57309f 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    line-height: 1;
+    padding-right: 10px;
+  }
+  .dot {
+    position: absolute;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    background: #f5d96e;
+    bottom: 56px;
+    right: 56px;
+    box-shadow: 0 0 0 7px rgba(245,217,110,.22);
+  }
+</style>
+</head>
+<body>
+  <div class="logo">
+    <span>KB</span>
+    <div class="dot"></div>
+  </div>
+</body>
+</html>

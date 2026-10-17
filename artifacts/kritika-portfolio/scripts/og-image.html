@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { width: 1200px; height: 630px; overflow: hidden; }
+  body {
+    font-family: "Segoe UI", Arial, Helvetica, sans-serif;
+    background: linear-gradient(135deg, #33264e 0%, #6f3cc4 55%, #8b5ad0 100%);
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .glow {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(90px);
+    opacity: .45;
+  }
+  .glow.a { width: 460px; height: 460px; background: #a57ff0; top: -140px; left: -120px; }
+  .glow.b { width: 420px; height: 420px; background: #57309f; bottom: -160px; right: -100px; }
+  .ring {
+    position: absolute;
+    border: 2px solid rgba(245, 217, 110, .35);
+    border-radius: 50%;
+  }
+  .ring.r1 { width: 520px; height: 520px; top: -220px; right: -120px; }
+  .ring.r2 { width: 360px; height: 360px; bottom: -160px; left: -80px; border-color: rgba(255,255,255,.18); }
+
+  .card {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 56px;
+    z-index: 2;
+    padding: 0 90px;
+  }
+  .logo {
+    width: 260px;
+    height: 260px;
+    border-radius: 60px;
+    background: linear-gradient(160deg, #ffffff 0%, #f2eaff 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 34px 70px -24px rgba(0,0,0,.55), inset 0 -6px 0 rgba(111,60,196,.16);
+    position: relative;
+  }
+  .logo::after {
+    content: "";
+    position: absolute;
+    inset: 14px;
+    border: 3px solid #6f3cc4;
+    border-radius: 46px;
+    opacity: .28;
+  }
+  .logo span {
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 148px;
+    font-weight: 700;
+    letter-spacing: -6px;
+    background: linear-gradient(150deg, #6f3cc4 10%, #8b5ad0 60%, #57309f 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    line-height: 1;
+    padding-right: 6px;
+  }
+  .logo .dot {
+    position: absolute;
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    background: #f5d96e;
+    bottom: 44px;
+    right: 44px;
+    box-shadow: 0 0 0 6px rgba(245,217,110,.25);
+  }
+
+  .text h1 {
+    color: #ffffff;
+    font-size: 76px;
+    font-weight: 700;
+    letter-spacing: -2.5px;
+    line-height: 1.05;
+  }
+  .text h1 .accent { color: #f5d96e; }
+  .text .tag {
+    margin-top: 22px;
+    color: #e7dcfb;
+    font-size: 32px;
+    font-weight: 500;
+    letter-spacing: .5px;
+  }
+  .text .url {
+    margin-top: 34px;
+    display: inline-block;
+    background: rgba(255,255,255,.14);
+    border: 1.5px solid rgba(255,255,255,.35);
+    color: #ffffff;
+    font-size: 26px;
+    font-weight: 600;
+    padding: 12px 30px;
+    border-radius: 999px;
+    letter-spacing: .3px;
+  }
+  .badge {
+    position: absolute;
+    bottom: 34px;
+    left: 0;
+    right: 0;
+    text-align: center;
+    color: rgba(255,255,255,.72);
+    font-size: 22px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    font-weight: 600;
+    z-index: 2;
+  }
+</style>
+</head>
+<body>
+  <div class="glow a"></div>
+  <div class="glow b"></div>
+  <div class="ring r1"></div>
+  <div class="ring r2"></div>
+
+  <div class="card">
+    <div class="logo">
+      <span>KB</span>
+      <div class="dot"></div>
+    </div>
+    <div class="text">
+      <h1>Kritika<br />Bhagoria<span class="accent">.</span></h1>
+      <div class="tag">Digital Marketing &amp; AI Creator</div>
+      <div class="url">kritikabhagoria-portfolio.vercel.app</div>
+    </div>
+  </div>
+
+  <div class="badge">Portfolio &middot; Blog &middot; Projects</div>
+</body>
+</html>

@@ -28,4 +28,22 @@
       <image:caption>Cover image for the Kritika Bhagoria blog on SEO, AI tools, and digital marketing.</image:caption>
     </image:image>
   </url>
+  <url>
+    <loc>https://kritikabhagoria-portfolio.vercel.app/blog/seo-basics-for-freelancers</loc>
+    <lastmod>2026-09-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://kritikabhagoria-portfolio.vercel.app/blog/ai-workflow-for-building-websites</loc>
+    <lastmod>2026-08-28</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://kritikabhagoria-portfolio.vercel.app/blog/digital-marketing-on-zero-budget</loc>
+    <lastmod>2026-07-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
 </urlset>
