@@ -2,6 +2,19 @@
   "AUTO_PUBLISH": false,
   "posts": [
     {
+      "id": "turning-one-blog-post-into-several-social-posts",
+      "slug": "turning-one-blog-post-into-several-social-posts",
+      "title": "Turning One Blog Post into Several Social Posts",
+      "excerpt": "Learn how I turn one long blog post into fresh updates for LinkedIn, Instagram, and X without copying and pasting the exact same lines everywhere.",
+      "content": "<h2>Finding Different Angles in One Article</h2><p>When I finish writing a long blog post, I feel a sense of relief. Putting thoughts together takes time and patience. But once the article is live, the next step begins. I want people to read what I wrote. In the past, I made the mistake of copying the same sentence and pasting it across every social platform. It was fast, but it did not work well. Readers on different apps look for different things.</p><p>A single blog post is usually not just one idea. It is often made of several smaller thoughts. There might be a problem I faced, a tool I tried, a mistake I made, or a simple takeaway. Instead of treating the whole article as one big block, I now look for these separate pieces. Each piece can become its own short post without repeating the same words everywhere.</p><h2>Matching the Tone to Each Platform</h2><p>Each platform has its own mood and reading style. When I share my work, I try to respect how people use each app.</p><ul><li>LinkedIn works best for honest learning stories. I share what I studied in my digital marketing classes, what went wrong, and how I handled the challenge.</li><li>X is built for quick, clean thoughts. I usually take one direct point or question from my post and keep it under two or three short sentences.</li><li>Instagram is visual first. I can create a simple graphic or share a screen capture, and then write a warm, friendly caption that feels like a quick chat with a friend.</li></ul><p>By changing the perspective, the message feels fresh on every feed. Someone who follows me on both LinkedIn and X will not see the exact same sentence twice.</p><h2>What I Learned from My Own Projects</h2><p>I saw this clearly when I wrote about building my Mind Test browser quiz game. In the original blog post, I explained the entire build from start to finish. But when I shared it online, I broke it into different parts.</p><p>On LinkedIn, I wrote about how working on that small project taught me to organize questions and track user answers. On X, I posted a simple observation about why browser games need clear buttons. For my Pizza Ride ordering website project, I did something similar. I talked about layout choices on one platform and shared a simple design tip on another.</p><p>Repurposing content does not mean repeating yourself word for word. It just means finding new windows into the same room. I am still practicing this every week as I balance my studies and my writing, but it makes social media feel much more creative.</p>",
+      "cover": "/kritika-bhagoria-blog-cover.png",
+      "category": "Social Media Marketing",
+      "date": "2026-10-19",
+      "readTime": "2 min",
+      "published": false,
+      "topicKey": "social-repurpose"
+    },
+    {
       "id": "seo-for-freelancers",
       "slug": "seo-basics-for-freelancers",
       "title": "SEO Basics Every Freelancer Should Know",
