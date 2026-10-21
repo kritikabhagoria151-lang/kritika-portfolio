@@ -21,7 +21,9 @@ const APP_DIR = process.cwd();
 const BLOG_POSTS_FILE = path.join(APP_DIR, 'blog-posts.json');
 const COVER_IMAGE = '/kritika-bhagoria-blog-cover.png';
 
-const GEMINI_MODELS = ['gemini-flash-latest', 'gemini-2.5-flash', 'gemini-2.0-flash'];
+// Only current Gemini flash models. Older names (gemini-flash-latest,
+// gemini-2.5-flash, gemini-2.0-flash) now return 404, so they are removed.
+const GEMINI_MODELS = ['gemini-3.8-flash', 'gemini-3.8-flash-lite'];
 const API_BASE =
   process.env.GEMINI_API_BASE || 'https://generativelanguage.googleapis.com/v1beta/models';
 

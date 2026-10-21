@@ -33,7 +33,13 @@ SMTP_HOST = "smtp.gmail.com"
 SMTP_PORT = 465
 
 GEMINI_BASE = "https://generativelanguage.googleapis.com/v1beta/models"
-GEMINI_MODELS = ["gemini-2.5-flash", "gemini-flash-latest", "gemini-2.0-flash"]
+
+# Only current Gemini flash models. Older names (gemini-2.5-flash,
+# gemini-2.0-flash, gemini-flash-latest) now return 404, so they are removed.
+GEMINI_MODELS = ["gemini-3.8-flash", "gemini-3.8-flash-lite"]
+
+# Seconds to wait for a single Gemini request before trying the next model.
+REQUEST_TIMEOUT = 120
 
 REQUIRED_SECRETS = ("GEMINI_API_KEY", "GMAIL_ADDRESS", "GMAIL_APP_PASSWORD", "BLOGGER_EMAIL")
 
@@ -138,7 +144,7 @@ def call_gemini(api_key: str, prompt: str) -> str:
             },
         }
         try:
-            response = requests.post(url, json=payload, headers={"x-goog-api-key": api_key}, timeout=90)
+            response = requests.post(url, json=payload, headers={"x-goog-api-key": api_key}, timeout=REQUEST_TIMEOUT)
         except requests.RequestException as exc:
             last_error = str(exc)
             print(f"  {model}: request failed ({exc})", flush=True)
