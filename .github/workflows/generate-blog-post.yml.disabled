@@ -1,5 +1,12 @@
 name: Generate Blog Post
 
+# DISABLED - superseded by "Blog to Blogger" (.github/workflows/blog.yml), which
+# writes the post with Gemini and emails it straight to Blogger.
+#
+# GitHub Actions only picks up *.yml / *.yaml in .github/workflows, so the
+# .disabled suffix keeps this workflow from running while preserving the file.
+# Rename it back to generate-blog-post.yml to re-enable it.
+#
 # Writes a new blog post with Gemini and opens a pull request with the draft.
 # The post lands in blog-posts.json with "published": false unless AUTO_PUBLISH
 # is true (or the manual run forces publishing).
