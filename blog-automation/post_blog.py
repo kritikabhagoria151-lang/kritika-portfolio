@@ -22,6 +22,7 @@ import re
 import smtplib
 import ssl
 import sys
+import time
 from datetime import date
 from email.message import EmailMessage
 
@@ -35,11 +36,22 @@ SMTP_PORT = 465
 GEMINI_BASE = "https://generativelanguage.googleapis.com/v1beta/models"
 
 # Only current Gemini flash models. Older names (gemini-2.5-flash,
-# gemini-2.0-flash, gemini-flash-latest) now return 404, so they are removed.
-GEMINI_MODELS = ["gemini-3.8-flash", "gemini-3.8-flash-lite"]
+# gemini-2.0-flash, gemini-flash-latest) now return 404 and
+# gemini-3.8-flash-lite does not exist, so the list stays this small.
+GEMINI_MODELS = ["gemini-3.8-flash"]
 
-# Seconds to wait for a single Gemini request before trying the next model.
-REQUEST_TIMEOUT = 120
+# Seconds to wait for a single Gemini request before giving up on that attempt.
+REQUEST_TIMEOUT = 300
+
+# Extra tries each model gets after its first failed attempt.
+RETRIES_PER_MODEL = 2
+
+# Seconds to wait before retrying a model.
+RETRY_DELAY_SECONDS = 10
+
+# Keep replies quick: cap the output and ask for a minimal thinking budget.
+MAX_OUTPUT_TOKENS = 3000
+THINKING_BUDGET = 0
 
 REQUIRED_SECRETS = ("GEMINI_API_KEY", "GMAIL_ADDRESS", "GMAIL_APP_PASSWORD", "BLOGGER_EMAIL")
 
@@ -131,47 +143,137 @@ Return ONLY a JSON object, no code fences, in this exact shape:
 {{"title": "Post title under 65 characters", "content": "<h2>...</h2><p>...</p>"}}"""
 
 
+def build_payload(prompt: str, use_thinking: bool) -> dict:
+    """Build a generateContent payload. Thinking is added only when asked for."""
+    config = {
+        "temperature": 0.8,
+        "maxOutputTokens": MAX_OUTPUT_TOKENS,
+        "responseMimeType": "application/json",
+    }
+    if use_thinking:
+        config["thinkingConfig"] = {"thinkingBudget": THINKING_BUDGET}
+    return {
+        "contents": [{"role": "user", "parts": [{"text": prompt}]}],
+        "generationConfig": config,
+    }
+
+
+def generate_once(api_key: str, model: str, payload: dict) -> tuple[str | None, str]:
+    """One generateContent call: returns (text, "") on success or (None, error)."""
+    url = f"{GEMINI_BASE}/{model}:generateContent"
+    try:
+        response = requests.post(
+            url, json=payload, headers={"x-goog-api-key": api_key}, timeout=REQUEST_TIMEOUT
+        )
+    except requests.RequestException as exc:
+        return None, f"request failed ({exc})"
+
+    if response.status_code != 200:
+        try:
+            detail = response.json().get("error", {}).get("message", response.text)
+        except ValueError:
+            detail = response.text
+        return None, f"HTTP {response.status_code}: {detail[:200]}"
+
+    try:
+        parts = response.json()["candidates"][0]["content"]["parts"]
+    except (KeyError, IndexError, TypeError, ValueError):
+        return None, "unexpected response shape"
+
+    text = "".join(part.get("text", "") for part in parts).strip()
+    if not text:
+        return None, "empty response"
+    return text, ""
+
+
+def try_model(api_key: str, model: str, prompt: str, attempts: int = RETRIES_PER_MODEL + 1) -> tuple[str | None, str]:
+    """Ask one model up to `attempts` times, pausing between tries.
+
+    Returns (text, "") on success or (None, last_error) when every try failed.
+    If the model rejects thinkingConfig the config is dropped and the same
+    attempt is repeated without it.
+    """
+    last_error = "unknown error"
+    use_thinking = True
+    retries = max(attempts - 1, 0)
+
+    for attempt in range(1, attempts + 1):
+        text, error = generate_once(api_key, model, build_payload(prompt, use_thinking))
+
+        if text is None and use_thinking and "thinking" in error.lower():
+            print(f"  {model}: model rejects thinkingConfig, retrying without it", flush=True)
+            use_thinking = False
+            text, error = generate_once(api_key, model, build_payload(prompt, False))
+
+        if text is not None:
+            return text, ""
+
+        last_error = error
+        print(f"  {model}: {error}", flush=True)
+        if attempt <= retries:
+            print(
+                f"  {model}: retry {attempt}/{retries} in {RETRY_DELAY_SECONDS}s",
+                flush=True,
+            )
+            time.sleep(RETRY_DELAY_SECONDS)
+
+    return None, last_error
+
+
+def find_available_flash_model(api_key: str) -> str:
+    """Log the models the API offers and return the first usable flash one.
+
+    The key is sent as a header (never in the URL), so it cannot leak into
+    the log output.
+    """
+    print("Every configured model failed. Asking the API which models exist...", flush=True)
+    try:
+        response = requests.get(
+            GEMINI_BASE, headers={"x-goog-api-key": api_key}, timeout=REQUEST_TIMEOUT
+        )
+    except requests.RequestException as exc:
+        print(f"  could not list models: {exc}", flush=True)
+        return ""
+
+    if response.status_code != 200:
+        print(f"  could not list models: HTTP {response.status_code}", flush=True)
+        return ""
+
+    try:
+        models = response.json().get("models", [])
+    except ValueError:
+        print("  could not list models: unexpected response", flush=True)
+        return ""
+
+    print("  Available models:", flush=True)
+    candidate = ""
+    for model in models:
+        name = str(model.get("name", "")).split("/")[-1]
+        methods = model.get("supportedGenerationMethods") or []
+        print(f"    - {name} ({', '.join(methods) or 'no methods listed'})", flush=True)
+        if not candidate and "flash" in name.lower() and "generateContent" in methods:
+            candidate = name
+
+    if candidate:
+        print(f"  Using the first available flash model: {candidate}", flush=True)
+    else:
+        print("  No flash model with generateContent support was found.", flush=True)
+    return candidate
+
+
 def call_gemini(api_key: str, prompt: str) -> str:
     last_error = ""
     for model in GEMINI_MODELS:
-        url = f"{GEMINI_BASE}/{model}:generateContent"
-        payload = {
-            "contents": [{"role": "user", "parts": [{"text": prompt}]}],
-            "generationConfig": {
-                "temperature": 0.8,
-                "maxOutputTokens": 3000,
-                "responseMimeType": "application/json",
-            },
-        }
-        try:
-            response = requests.post(url, json=payload, headers={"x-goog-api-key": api_key}, timeout=REQUEST_TIMEOUT)
-        except requests.RequestException as exc:
-            last_error = str(exc)
-            print(f"  {model}: request failed ({exc})", flush=True)
-            continue
+        text, last_error = try_model(api_key, model, prompt)
+        if text is not None:
+            return text
 
-        if response.status_code != 200:
-            try:
-                detail = response.json().get("error", {}).get("message", response.text)
-            except ValueError:
-                detail = response.text
-            last_error = f"HTTP {response.status_code}: {detail[:200]}"
-            print(f"  {model}: {last_error}", flush=True)
-            continue
-
-        try:
-            parts = response.json()["candidates"][0]["content"]["parts"]
-        except (KeyError, IndexError, TypeError, ValueError):
-            last_error = "unexpected response shape"
-            print(f"  {model}: {last_error}", flush=True)
-            continue
-
-        text = "".join(part.get("text", "") for part in parts).strip()
-        if not text:
-            last_error = "empty response"
-            print(f"  {model}: {last_error}", flush=True)
-            continue
-        return text
+    # Nothing configured worked - discover a usable model and try it once.
+    fallback = find_available_flash_model(api_key)
+    if fallback:
+        text, last_error = try_model(api_key, fallback, prompt, attempts=1)
+        if text is not None:
+            return text
 
     fail(f"Gemini could not write the post. Last problem: {last_error}")
 
