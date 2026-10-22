@@ -440,16 +440,19 @@ function HeroPhoto() {
       <div className="absolute -left-5 top-10 h-20 w-20 rounded-3xl border border-violet-200 bg-white/60 backdrop-blur-sm" />
       <div className="absolute -right-5 bottom-12 h-28 w-28 rounded-full border border-[#e9d68d] bg-[#fff8df]/80" />
       <div className="relative aspect-[3/4] overflow-hidden rounded-[2rem] border-8 border-white bg-[#eee7fa] shadow-[0_28px_60px_-26px_rgba(74,43,123,.42)]">
-        <img
-          src="/kritika-bhagoria.jpg"
-          alt="Portrait of Kritika Bhagoria, digital marketing student and AI creator from Pundri, Haryana, India"
-          width={1086}
-          height={1448}
-          loading="eager"
-          fetchPriority="high"
-          decoding="async"
-          className="h-full w-full object-cover"
-        />
+        <picture>
+          <source srcSet="/kritika-bhagoria.webp" type="image/webp" />
+          <img
+            src="/kritika-bhagoria.jpg"
+            alt="Portrait of Kritika Bhagoria, digital marketing student and AI creator from Pundri, Haryana, India - personal branding photo"
+            width={1086}
+            height={1448}
+            loading="eager"
+            fetchPriority="high"
+            decoding="async"
+            className="h-full w-full object-cover"
+          />
+        </picture>
       </div>
       <div className="absolute -bottom-5 left-8 rounded-2xl border border-violet-100 bg-white px-4 py-3 shadow-[0_10px_30px_-18px_#5d3c8a]">
         <p className="text-[10px] font-bold uppercase tracking-[.18em] text-[#9a8da9]">Currently</p>
@@ -518,15 +521,18 @@ function AboutPhoto() {
       <div className="absolute -right-6 bottom-16 h-32 w-32 rounded-full border border-[#e9d68d] bg-[#fff8df]/80" />
       <div className="relative aspect-[3/4] overflow-hidden rounded-[2rem] border-8 border-white bg-[#eee7fa] shadow-[0_28px_60px_-26px_rgba(74,43,123,.42)]">
         {PROFILE_PHOTO ? (
-          <img
-            src={PROFILE_PHOTO}
-            alt="Kritika Bhagoria, digital marketing student and AI creator, working on websites and AI projects"
-            width={1086}
-            height={1448}
-            loading="lazy"
-            decoding="async"
-            className="relative h-full w-full object-cover"
-          />
+          <picture>
+            <source srcSet="/kritika-bhagoria-about.webp" type="image/webp" />
+            <img
+              src={PROFILE_PHOTO}
+              alt="Kritika Bhagoria, digital marketing student and AI creator from Pundri, Haryana, India, working on SEO, websites and AI-powered marketing projects"
+              width={1086}
+              height={1448}
+              loading="lazy"
+              decoding="async"
+              className="relative h-full w-full object-cover"
+            />
+          </picture>
         ) : (
           <>
             <div className="absolute inset-0 bg-[radial-gradient(circle_at_66%_22%,#d6c4f4,transparent_36%),linear-gradient(160deg,#f5f0ff,#e3d8f8)]" />
@@ -1129,16 +1135,18 @@ function BlogPage({ posts }: { posts: BlogPost[] }) {
               className="reveal group rounded-[2rem] border border-violet-100 bg-white overflow-hidden transition-all hover:-translate-y-1 hover:shadow-[0_20px_40px_-28px_#5f378e]"
             >
               <div className="aspect-video overflow-hidden bg-[#eee7fa]">
-                <img
-                  src={post.cover}
-                  alt={`${post.title} - article cover image by Kritika Bhagoria`}
-                  width={1200}
-                  height={630}
-                  loading="lazy"
-                  decoding="async"
-                  className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
-                />
-              </div>
+                <picture>
+                  <source srcSet={post.cover.replace(/\.(jpg|jpeg|png)$/i, '.webp')} type="image/webp" />
+                  <img
+                    src={post.cover}
+                    alt={`${post.title} - Kritika Bhagoria blog cover on SEO, AI tools and digital marketing`}
+                    width={1200}
+                    height={630}
+                    loading="lazy"
+                    decoding="async"
+                    className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                  />
+                </picture>
               <div className="p-6">
                 <div className="flex items-center gap-3 text-xs text-[#806f99]">
                   <time dateTime={post.date}>{new Date(post.date).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}</time>
