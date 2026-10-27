@@ -1147,6 +1147,7 @@ function BlogPage({ posts }: { posts: BlogPost[] }) {
                     className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
                   />
                 </picture>
+              </div>
               <div className="p-6">
                 <div className="flex items-center gap-3 text-xs text-[#806f99]">
                   <time dateTime={post.date}>{new Date(post.date).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}</time>
