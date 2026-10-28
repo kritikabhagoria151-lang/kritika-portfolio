@@ -3,7 +3,7 @@
   "buildCommand": "npm run build",
   "outputDirectory": "dist/public",
   "framework": "vite",
-  "installCommand": "npm install",
+  "installCommand": "npm install --no-omit=dev",
   "cleanUrls": false,
   "redirects": [
     { "source": "/about", "destination": "/", "permanent": true },
