@@ -1,9 +1,9 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
-  "buildCommand": "npm run build",
+  "buildCommand": "npx vite build --config vite.config.ts",
   "outputDirectory": "dist/public",
   "framework": "vite",
-  "installCommand": "npm install --no-omit=dev",
+  "installCommand": "npm install --no-omit=dev --ignore-scripts",
   "cleanUrls": false,
   "redirects": [
     { "source": "/about", "destination": "/", "permanent": true },
