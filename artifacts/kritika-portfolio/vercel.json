@@ -1,9 +1,9 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
-  "buildCommand": "npm run build",
+  "buildCommand": "pnpm run build",
   "outputDirectory": "dist/public",
   "framework": "vite",
-  "installCommand": "npm install",
+  "installCommand": "pnpm install",
   "cleanUrls": false,
   "redirects": [
     { "source": "/about", "destination": "/", "permanent": true },
@@ -12,10 +12,7 @@
     { "source": "/projects", "destination": "/", "permanent": true },
     { "source": "/contact", "destination": "/", "permanent": true }
   ],
-  "rewrites": [
-    { "source": "/blog", "destination": "/index.html" },
-    { "source": "/blog/(.*)", "destination": "/index.html" }
-  ],
+  "rewrites": [],
   "headers": [
     {
       "source": "/assets/(.*)",
