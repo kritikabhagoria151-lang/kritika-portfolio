@@ -1283,7 +1283,7 @@ function Projects() {
 }
 
 function Contact() {
-  const [sent, setSent] = useState(false);
+  const [status, setStatus] = useState<'idle' | 'preparing' | 'success' | 'error'>('idle');
 
   const handleContact = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -1293,8 +1293,12 @@ function Contact() {
     const message = String(data.get('message') || '');
     const subject = encodeURIComponent(`Portfolio enquiry from ${name}`);
     const body = encodeURIComponent(`Name: ${name}\nEmail: ${email}\n\n${message}`);
-    window.location.href = `mailto:kritikabhagoria151@gmail.com?subject=${subject}&body=${body}`;
-    setSent(true);
+    try {
+      window.location.href = `mailto:kritikabhagoria151@gmail.com?subject=${subject}&body=${body}`;
+      setStatus('success');
+    } catch {
+      setStatus('error');
+    }
   };
 
   return (
@@ -1309,7 +1313,8 @@ function Contact() {
 
         <div className="mt-16 grid gap-16 lg:grid-cols-[.9fr_1.1fr]">
           <div className="reveal">
-            <p className="text-xs font-bold uppercase tracking-[.22em] text-[#8050ce]">Get in touch</p>            <a href="mailto:kritikabhagoria151@gmail.com" className="focus-ring mt-8 inline-flex items-center gap-3 text-sm font-bold text-[#5e389d] underline decoration-violet-200 underline-offset-8 transition-colors hover:text-[#33264e]" data-testid="link-email"><Mail className="h-4 w-4" /> kritikabhagoria151@gmail.com</a>
+            <p className="text-xs font-bold uppercase tracking-[.22em] text-[#8050ce]">Get in touch</p>
+            <a href="mailto:kritikabhagoria151@gmail.com" className="focus-ring mt-8 inline-flex items-center gap-3 text-sm font-bold text-[#5e389d] underline decoration-violet-200 underline-offset-8 transition-colors hover:text-[#33264e]" data-testid="link-email"><Mail className="h-4 w-4" /> kritikabhagoria151@gmail.com</a>
             <div className="mt-12 rounded-3xl bg-[#f6f1ff] p-7">
               <p className="text-xs font-bold uppercase tracking-[.16em] text-[#9577bc]">Based in</p>
               <p className="mt-3 inline-flex items-center gap-2 font-display text-2xl font-semibold text-[#45315e]"><MapPin className="h-5 w-5 text-[#8050ce]" /> Pundri, Haryana</p>
@@ -1322,7 +1327,22 @@ function Contact() {
               <label className="text-sm font-semibold text-[#45315e]">Email address<input required name="email" type="email" placeholder="you@example.com" className="focus-ring mt-2 w-full rounded-xl border border-violet-100 bg-white px-4 py-3.5 text-sm font-normal text-[#45315e] outline-none transition-colors placeholder:text-[#b1a5bf] focus:border-[#9a73da]" data-testid="input-email" /></label>
             </div>
             <label className="mt-6 block text-sm font-semibold text-[#45315e]">Project details<textarea required name="message" rows={6} placeholder="Briefly describe your project, goals, and timeline..." className="focus-ring mt-2 w-full resize-none rounded-xl border border-violet-100 bg-white px-4 py-3.5 text-sm font-normal text-[#45315e] outline-none transition-colors placeholder:text-[#b1a5bf] focus:border-[#9a73da]" data-testid="input-message" /></label>
-            <div className="mt-6 flex flex-wrap items-center justify-between gap-4"><button type="submit" className="focus-ring inline-flex items-center rounded-full bg-[#6f3cc4] px-6 py-3.5 text-sm font-bold text-white transition-all hover:-translate-y-0.5 hover:bg-[#57309f]" data-testid="button-send-message">{sent ? <><Check className="mr-2 h-4 w-4" /> Draft prepared</> : <>Open email draft <ArrowUpRight className="ml-2 h-4 w-4" /></>}</button><span className="text-xs text-[#9a8da9]">Your email app will open</span></div>
+            <div className="mt-6 flex flex-wrap items-center justify-between gap-4">
+              {status === 'success' ? (
+                <div className="flex-1 p-3 rounded-xl bg-[#f0fdf4] border border-[#bbf7d0] text-[#166534] text-sm font-semibold">
+                  <Check className="mr-2 h-4 w-4" /> Email draft prepared! Check your email app and hit send.
+                </div>
+              ) : status === 'error' ? (
+                <div className="flex-1 p-3 rounded-xl bg-[#fef2f2] border border-[#fecaca] text-[#991b1b] text-sm font-semibold">
+                  Could not open email app. Please copy: kritikabhagoria151@gmail.com
+                </div>
+              ) : (
+                <button type="submit" className="focus-ring inline-flex items-center gap-2 rounded-full bg-[#6f3cc4] px-6 py-3.5 text-sm font-bold text-white transition-all hover:-translate-y-0.5 hover:bg-[#57309f]" data-testid="button-send-message">
+                  Open email draft <ArrowUpRight className="ml-2 h-4 w-4" />
+                </button>
+              )}
+              <span className="text-xs text-[#9a8da9]">Your email app will open with the message pre-filled</span>
+            </div>
           </form>
         </div>
       </div>
