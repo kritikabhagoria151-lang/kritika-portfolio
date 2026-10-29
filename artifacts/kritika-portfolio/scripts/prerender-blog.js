@@ -82,8 +82,16 @@ function headHtml(title, description, canonicalUrl, ogImage, assets) {
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="stylesheet" href="${escapeHtml(assets.css)}" />
+  <style>
+    /* Reveal animation only hides elements when JS has loaded.
+       Without JS, .reveal elements stay visible (opacity 1). */
+    html.js-enabled .reveal { opacity: 0; }
+  </style>
 </head>
-<body>`;
+<body>
+<script>
+  document.documentElement.classList.add('js-enabled');
+</script>`;
 }
 
 function footHtml(assets) {
@@ -95,12 +103,12 @@ function footHtml(assets) {
 function navLinksHtml() {
   return `<nav class="hidden items-center gap-6 md:flex" aria-label="Main navigation">
     <a href="/" class="focus-ring text-[13px] font-semibold transition-colors text-[#665b77] hover:text-[#6f3cc4]" data-testid="link-nav-home">Home</a>
-    <a href="#about" class="focus-ring text-[13px] font-semibold transition-colors text-[#665b77] hover:text-[#6f3cc4]" data-testid="link-nav-about">About</a>
-    <a href="#journey" class="focus-ring text-[13px] font-semibold transition-colors text-[#665b77] hover:text-[#6f3cc4]" data-testid="link-nav-journey">Journey</a>
-    <a href="#skills" class="focus-ring text-[13px] font-semibold transition-colors text-[#665b77] hover:text-[#6f3cc4]" data-testid="link-nav-skills">Skills</a>
-    <a href="#projects" class="focus-ring text-[13px] font-semibold transition-colors text-[#665b77] hover:text-[#6f3cc4]" data-testid="link-nav-projects">Projects</a>
+    <a href="/#about" class="focus-ring text-[13px] font-semibold transition-colors text-[#665b77] hover:text-[#6f3cc4]" data-testid="link-nav-about">About</a>
+    <a href="/#journey" class="focus-ring text-[13px] font-semibold transition-colors text-[#665b77] hover:text-[#6f3cc4]" data-testid="link-nav-journey">Journey</a>
+    <a href="/#skills" class="focus-ring text-[13px] font-semibold transition-colors text-[#665b77] hover:text-[#6f3cc4]" data-testid="link-nav-skills">Skills</a>
+    <a href="/#projects" class="focus-ring text-[13px] font-semibold transition-colors text-[#665b77] hover:text-[#6f3cc4]" data-testid="link-nav-projects">Projects</a>
     <a href="/blog" class="focus-ring text-[13px] font-semibold transition-colors text-[#6f3cc4]" data-testid="link-nav-blog">Blog</a>
-    <a href="#contact" class="focus-ring text-[13px] font-semibold transition-colors text-[#665b77] hover:text-[#6f3cc4]" data-testid="link-nav-contact">Contact</a>
+    <a href="/#contact" class="focus-ring text-[13px] font-semibold transition-colors text-[#665b77] hover:text-[#6f3cc4]" data-testid="link-nav-contact">Contact</a>
   </nav>`;
 }
 
@@ -164,7 +172,7 @@ async function main() {
   const listOgImage = `${SITE_URL}/kritika-bhagoria-blog-cover.webp`;
 
   const postsListHtml = allPosts.map((post) => `
-    <article class="reveal group rounded-[2rem] border border-violet-100 bg-white overflow-hidden transition-all hover:-translate-y-1 hover:shadow-[0_20px_40px_-28px_#5f378e]">
+    <article class="group rounded-[2rem] border border-violet-100 bg-white overflow-hidden transition-all hover:-translate-y-1 hover:shadow-[0_20px_40px_-28px_#5f378e]">
       <div class="aspect-video overflow-hidden bg-[#eee7fa]">
         <img src="${escapeHtml(post.cover)}" alt="${escapeHtml(post.title)} - Kritika Bhagoria blog cover on SEO, AI tools and digital marketing" width="1200" height="630" loading="lazy" decoding="async" class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105">
       </div>
@@ -193,14 +201,14 @@ ${shellStartHtml()}
         <span class="mt-3 inline-block rounded-full bg-[#f6f1ff] px-3 py-1 text-xs font-bold uppercase tracking-[.1em] text-[#8050ce]">Blog</span>
       </div>
       <h1 class="mt-4 font-display text-[clamp(2rem,6vw,4rem)] font-semibold leading-[1.1] tracking-[-.04em] text-[#33264e]">Ideas, lessons,<br><span class="text-[#6f3cc4]">and experiments.</span></h1>
-      <p class="reveal reveal-delay-2 mt-8 max-w-2xl text-lg leading-8 text-[#746783]">Things I am learning while building, marketing, and growing with AI. Practical notes, not theory.</p>
+      <p class="mt-8 max-w-2xl text-lg leading-8 text-[#746783]">Things I am learning while building, marketing, and growing with AI. Practical notes, not theory.</p>
     </div>
 
     <div class="mx-auto mt-16 max-w-7xl grid gap-8 md:grid-cols-2 lg:grid-cols-3">
       ${postsListHtml}
     </div>
 
-    <div class="reveal mt-16 text-center">
+    <div class="mt-16 text-center">
       <p class="text-sm text-[#806f99]">More posts coming soon - subscribe to stay updated.</p>
     </div>
   </div>
