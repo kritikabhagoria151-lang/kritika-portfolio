@@ -376,7 +376,20 @@ function Shell({ children, route, postSlug }: { children: ReactNode; route: Rout
           >
             Kritika<span className="text-[#8050ce]">.</span>
           </a>
-          <span>Digital marketing. AI-assisted development. Content that performs.</span>
+          <div className="flex flex-wrap items-center justify-center gap-4 sm:gap-6">
+            <a
+              href="/blog"
+              onClick={(event) => {
+                event.preventDefault();
+                navigate('/blog');
+              }}
+              className="focus-ring font-semibold text-[#665b77] transition-colors hover:text-[#6f3cc4]"
+              data-testid="link-footer-blog"
+            >
+              Blog
+            </a>
+            <span>Digital marketing. AI-assisted development. Content that performs.</span>
+          </div>
           <a
             href="#contact"
             onClick={(event) => {
@@ -1350,30 +1363,99 @@ function Contact() {
   );
 }
 
-function HomePage() {
+function LatestBlog({ posts }: { posts: BlogPost[] }) {
+  if (!posts || posts.length === 0) return null;
+
+  const latestPosts = [...posts]
+    .filter((p) => p.published)
+    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+    .slice(0, 3);
+
+  if (latestPosts.length === 0) return null;
+
   return (
-    <>
-      <section id="home">
-        <Hero />
-      </section>
-      <section id="about">
-        <About />
-      </section>
-      <section id="journey">
-        <Journey />
-      </section>
-      <section id="skills">
-        <Skills />
-      </section>
-      <section id="projects">
-        <Projects />
-      </section>
-      <Vision />
-      <FAQ />
-      <section id="contact">
-        <Contact />
-      </section>
-    </>
+    <section className="px-5 py-20 sm:px-8 lg:px-12 lg:py-28">
+      <div className="mx-auto max-w-7xl">
+        <div className="flex flex-col items-start justify-between gap-6 sm:flex-row sm:items-end">
+          <SectionIntro
+            eyebrow="Latest from the blog"
+            title="Ideas worth"
+            accent="reading."
+            description="Practical notes on SEO, AI tools, and digital marketing."
+          />
+          <a
+            href="/blog"
+            onClick={(event) => {
+              event.preventDefault();
+              navigate('/blog');
+            }}
+            className="focus-ring hidden shrink-0 items-center rounded-full border border-violet-200 bg-white px-6 py-3 text-sm font-semibold text-[#6f3cc4] transition-all hover:-translate-y-0.5 hover:border-[#cbb8ee] sm:inline-flex"
+            data-testid="link-latest-blog-all"
+          >
+            View all posts <ArrowUpRight className="ml-2 h-4 w-4" />
+          </a>
+        </div>
+
+        <div className="mx-auto mt-16 grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+          {latestPosts.map((post) => (
+            <article
+              key={post.id}
+              className="reveal group rounded-[2rem] border border-violet-100 bg-white overflow-hidden transition-all hover:-translate-y-1 hover:shadow-[0_20px_40px_-28px_#5f378e]"
+            >
+              <div className="aspect-video overflow-hidden bg-[#eee7fa]">
+                <picture>
+                  <source srcSet={post.cover.replace(/\.(jpg|jpeg|png)$/i, '.webp')} type="image/webp" />
+                  <img
+                    src={post.cover}
+                    alt={`${post.title} - Kritika Bhagoria blog cover on SEO, AI tools and digital marketing`}
+                    width={1200}
+                    height={630}
+                    loading="lazy"
+                    decoding="async"
+                    className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                  />
+                </picture>
+              </div>
+              <div className="p-6">
+                <div className="flex items-center gap-3 text-xs text-[#806f99]">
+                  <time dateTime={post.date}>
+                    {new Date(post.date).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}
+                  </time>
+                  <span className="w-px h-4 bg-violet-200" />
+                  <span>{post.readTime} read</span>
+                </div>
+                <span className="mt-3 inline-block rounded-full bg-[#f6f1ff] px-3 py-1 text-xs font-bold uppercase tracking-[.1em] text-[#8050ce]">
+                  {post.category}
+                </span>
+                <h3 className="mt-4 font-display text-2xl font-semibold tracking-tight text-[#33264e] group-hover:text-[#6f3cc4] transition-colors">
+                  {post.title}
+                </h3>
+                <p className="mt-3 text-sm leading-7 text-[#746783] line-clamp-3">{post.excerpt}</p>
+                <a
+                  href={`/blog/${post.slug}`}
+                  className="focus-ring mt-6 inline-flex items-center gap-2 text-sm font-bold text-[#6f3cc4] transition-all hover:gap-3"
+                >
+                  Read more <ChevronRight className="h-4 w-4" />
+                </a>
+              </div>
+            </article>
+          ))}
+        </div>
+
+        <div className="mt-10 flex justify-center sm:hidden">
+          <a
+            href="/blog"
+            onClick={(event) => {
+              event.preventDefault();
+              navigate('/blog');
+            }}
+            className="focus-ring inline-flex items-center rounded-full border border-violet-200 bg-white px-6 py-3 text-sm font-semibold text-[#6f3cc4] transition-all hover:-translate-y-0.5 hover:border-[#cbb8ee]"
+          >
+            View all posts <ArrowUpRight className="ml-2 h-4 w-4" />
+          </a>
+        </div>
+      </div>
+    </section>
   );
 }
 
@@ -1423,7 +1505,7 @@ function App() {
       page = <BlogStatus message="That post could not be found." missing />;
     }
   } else {
-    page = <HomePage />;
+    page = <HomePage posts={publishedPosts} />;
   }
 
   return (

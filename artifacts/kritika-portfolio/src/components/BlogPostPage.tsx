@@ -100,13 +100,70 @@ export function BlogPostPage({ post, allPosts }: BlogPostPageProps) {
           {nextPost && (
             <a
               href={`/blog/${nextPost.slug}`}
-              className="focus-ring flex-1 inline-flex items-center gap-2 rounded-full border border-violet-100 bg-white px-4 py-2.5 text-sm font-semibold text-[#6f3cc4] transition-all hover:-translate-y-0.5 hover:border-[#cbb8ee]"
+              className="focus-ring flex-1 inline-flex items-center gap-2 rounded-full border border-violet-100 bg-white px-4 py-2.5 text-sm font-semibold text-[#6f3cc4] transition-all hover:-translate-y-0.5 hover:border-[#cbb8ee] ml-auto"
             >
               Next
               <ChevronRight className="h-4 w-4" />
             </a>
           )}
         </nav>
+
+        <section className="mt-16 rounded-[2rem] border border-violet-100 bg-[#faf8ff] p-6 sm:p-9">
+          <div className="flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-center">
+            <div>
+              <p className="text-xs font-bold uppercase tracking-[.22em] text-[#8050ce]">Related posts</p>
+              <h2 className="mt-2 font-display text-2xl font-semibold tracking-tight text-[#33264e]">Keep reading</h2>
+            </div>
+            <a
+              href="/blog"
+              className="focus-ring inline-flex items-center gap-2 rounded-full bg-[#6f3cc4] px-5 py-2.5 text-sm font-bold text-white transition-all hover:-translate-y-0.5 hover:bg-[#57309f]"
+            >
+              Back to all posts <ChevronRight className="h-4 w-4" />
+            </a>
+          </div>
+          <div className="mt-8 grid gap-6 sm:grid-cols-2">
+            {(allPosts.filter((p) => p.slug !== post.slug).slice(0, 2)).map((related) => (
+              <article
+                key={related.id}
+                className="group rounded-[1.5rem] border border-violet-100 bg-white overflow-hidden transition-all hover:-translate-y-1 hover:shadow-[0_20px_40px_-28px_#5f378e]"
+              >
+                <div className="aspect-video overflow-hidden bg-[#eee7fa]">
+                  <picture>
+                    <source srcSet={related.cover.replace(/\.(jpg|jpeg|png)$/i, '.webp')} type="image/webp" />
+                    <img
+                      src={related.cover}
+                      alt={`${related.title} - Kritika Bhagoria blog cover`}
+                      width={1200}
+                      height={630}
+                      loading="lazy"
+                      decoding="async"
+                      className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                    />
+                  </picture>
+                </div>
+                <div className="p-5">
+                  <div className="flex items-center gap-3 text-xs text-[#806f99]">
+                    <time dateTime={related.date}>
+                      {new Date(related.date).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}
+                    </time>
+                    <span className="w-px h-4 bg-violet-200" />
+                    <span>{related.readTime} read</span>
+                  </div>
+                  <h3 className="mt-3 font-display text-xl font-semibold tracking-tight text-[#33264e] group-hover:text-[#6f3cc4] transition-colors">
+                    {related.title}
+                  </h3>
+                  <p className="mt-2 text-sm leading-6 text-[#746783] line-clamp-2">{related.excerpt}</p>
+                  <a
+                    href={`/blog/${related.slug}`}
+                    className="focus-ring mt-4 inline-flex items-center gap-2 text-sm font-bold text-[#6f3cc4] transition-all hover:gap-3"
+                  >
+                    Read more <ChevronRight className="h-4 w-4" />
+                  </a>
+                </div>
+              </article>
+            ))}
+          </div>
+        </section>
 
         <div className="mt-16 text-center">
           <p className="text-sm text-[#806f99]">Found this useful? Share it with someone who's building with AI.</p>
