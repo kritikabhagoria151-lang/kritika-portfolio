@@ -1505,7 +1505,31 @@ function App() {
       page = <BlogStatus message="That post could not be found." missing />;
     }
   } else {
-    page = <HomePage posts={publishedPosts} />;
+    page = (
+      <>
+        <section id="home">
+          <Hero />
+        </section>
+        <section id="about">
+          <About />
+        </section>
+        <section id="journey">
+          <Journey />
+        </section>
+        <section id="skills">
+          <Skills />
+        </section>
+        <section id="projects">
+          <Projects />
+        </section>
+        <LatestBlog posts={publishedPosts} />
+        <Vision />
+        <FAQ />
+        <section id="contact">
+          <Contact />
+        </section>
+      </>
+    );
   }
 
   return (
