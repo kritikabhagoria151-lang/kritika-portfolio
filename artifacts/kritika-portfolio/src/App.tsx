@@ -1360,8 +1360,14 @@ function Contact() {
         <div className="mt-16 grid gap-16 lg:grid-cols-[.9fr_1.1fr]">
           <div className="reveal">
             <p className="text-xs font-bold uppercase tracking-[.22em] text-[#8050ce]">Get in touch</p>
-            <a href="mailto:kritikabhagoria151@gmail.com" className="focus-ring mt-8 inline-flex items-center gap-3 text-sm font-bold text-[#5e389d] underline decoration-violet-200 underline-offset-8 transition-colors hover:text-[#33264e]" data-testid="link-email"><Mail className="h-4 w-4" /> kritikabhagoria151@gmail.com</a>
             <div className="mt-6 flex flex-wrap items-center gap-3">
+              <a
+                href="mailto:kritikabhagoria151@gmail.com"
+                className="focus-ring inline-flex items-center gap-2 rounded-full border border-violet-100 bg-white px-4 py-2 text-sm font-semibold text-[#5e389d] transition-all hover:-translate-y-0.5 hover:border-[#cbb8ee]"
+                data-testid="link-email"
+              >
+                <Mail className="h-4 w-4" /> Email
+              </a>
               <a
                 href="https://www.linkedin.com/in/kritika-b-25468543a/"
                 target="_blank"
