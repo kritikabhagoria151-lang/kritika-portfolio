@@ -124,6 +124,9 @@ function shellStartHtml() {
       <a href="#contact" class="focus-ring hidden rounded-full bg-[#33264e] px-5 py-2.5 text-[13px] font-semibold text-white transition-all hover:-translate-y-0.5 hover:bg-[#6f3cc4] sm:inline-flex" data-testid="link-header-contact">
         Let's connect <svg class="ml-1.5 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3M4 15h22M4 15l7 7m0 0l7-7m-7 7v-8"></path></svg>
       </a>
+      <a href="https://www.linkedin.com/in/kritika-b-25468543a/" target="_blank" rel="noopener noreferrer" aria-label="Kritika Bhagoria on LinkedIn" class="focus-ring hidden rounded-full border border-violet-200 bg-white p-2.5 text-[#6f3cc4] transition-all hover:-translate-y-0.5 hover:border-[#cbb8ee] sm:inline-flex" data-testid="link-header-linkedin">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.32 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.79M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/></svg>
+      </a>
       <button type="button" aria-label="Toggle menu" class="focus-ring rounded-lg p-2 text-[#33264e] md:hidden" data-testid="button-mobile-menu">
         <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
       </button>

@@ -328,6 +328,17 @@ function Shell({ children, route, postSlug }: { children: ReactNode; route: Rout
             Let&apos;s connect <ArrowUpRight className="ml-1.5 h-4 w-4" />
           </a>
 
+          <a
+            href="https://www.linkedin.com/in/kritika-b-25468543a/"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Kritika Bhagoria on LinkedIn"
+            className="focus-ring hidden rounded-full border border-violet-200 bg-white p-2.5 text-[#6f3cc4] transition-all hover:-translate-y-0.5 hover:border-[#cbb8ee] sm:inline-flex"
+            data-testid="link-header-linkedin"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.32 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.79M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/></svg>
+          </a>
+
           <button
             type="button"
             aria-label="Toggle menu"
@@ -357,6 +368,17 @@ function Shell({ children, route, postSlug }: { children: ReactNode; route: Rout
                 {item.label}
               </a>
             ))}
+            <a
+              href="https://www.linkedin.com/in/kritika-b-25468543a/"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Kritika Bhagoria on LinkedIn"
+              className="mt-3 inline-flex items-center gap-2 rounded-full border border-violet-100 bg-white px-4 py-2 text-sm font-semibold text-[#6f3cc4]"
+              data-testid="link-mobile-linkedin"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.32 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.79M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/></svg>
+              LinkedIn
+            </a>
           </nav>
         )}
       </header>
