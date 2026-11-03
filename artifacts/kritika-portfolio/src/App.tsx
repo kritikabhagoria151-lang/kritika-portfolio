@@ -388,6 +388,16 @@ function Shell({ children, route, postSlug }: { children: ReactNode; route: Rout
             >
               Blog
             </a>
+            <a
+              href="https://www.linkedin.com/in/kritika-b-25468543a/"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Kritika Bhagoria on LinkedIn"
+              className="focus-ring font-semibold text-[#665b77] transition-colors hover:text-[#6f3cc4]"
+              data-testid="link-footer-linkedin"
+            >
+              LinkedIn
+            </a>
             <span>Digital marketing. AI-assisted development. Content that performs.</span>
           </div>
           <a
@@ -1328,6 +1338,18 @@ function Contact() {
           <div className="reveal">
             <p className="text-xs font-bold uppercase tracking-[.22em] text-[#8050ce]">Get in touch</p>
             <a href="mailto:kritikabhagoria151@gmail.com" className="focus-ring mt-8 inline-flex items-center gap-3 text-sm font-bold text-[#5e389d] underline decoration-violet-200 underline-offset-8 transition-colors hover:text-[#33264e]" data-testid="link-email"><Mail className="h-4 w-4" /> kritikabhagoria151@gmail.com</a>
+            <div className="mt-6 flex flex-wrap items-center gap-3">
+              <a
+                href="https://www.linkedin.com/in/kritika-b-25468543a/"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Kritika Bhagoria on LinkedIn"
+                className="focus-ring inline-flex items-center gap-2 rounded-full border border-violet-100 bg-white px-4 py-2 text-sm font-semibold text-[#6f3cc4] transition-all hover:-translate-y-0.5 hover:border-[#cbb8ee]"
+                data-testid="link-contact-linkedin"
+              >
+                LinkedIn
+              </a>
+            </div>
             <div className="mt-12 rounded-3xl bg-[#f6f1ff] p-7">
               <p className="text-xs font-bold uppercase tracking-[.16em] text-[#9577bc]">Based in</p>
               <p className="mt-3 inline-flex items-center gap-2 font-display text-2xl font-semibold text-[#45315e]"><MapPin className="h-5 w-5 text-[#8050ce]" /> Pundri, Haryana</p>

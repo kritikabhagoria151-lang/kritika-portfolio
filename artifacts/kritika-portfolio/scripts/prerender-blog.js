@@ -142,6 +142,7 @@ function shellEndHtml() {
       </a>
       <div class="flex flex-wrap items-center justify-center gap-4 sm:gap-6">
         <a href="/blog" class="focus-ring font-semibold text-[#665b77] transition-colors hover:text-[#6f3cc4]" data-testid="link-footer-blog">Blog</a>
+        <a href="https://www.linkedin.com/in/kritika-b-25468543a/" target="_blank" rel="noopener noreferrer" aria-label="Kritika Bhagoria on LinkedIn" class="focus-ring font-semibold text-[#665b77] transition-colors hover:text-[#6f3cc4]" data-testid="link-footer-linkedin">LinkedIn</a>
         <span>Digital marketing. AI-assisted development. Content that performs.</span>
       </div>
       <a href="#contact" class="focus-ring inline-flex items-center gap-2 font-semibold text-[#6f3cc4]" data-testid="link-footer-contact">
